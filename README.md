@@ -3,7 +3,7 @@ Android Twitter Sentiment
 
 # Introduction
 Twitter is a social network and microblogging system which limits a single content to 140 words. This limitation did not hinder the grows of users but rather attract people or organization to share, advertise or interact on the platform. 50 millions tweets was sent per day in average.
-This project is building an Android app which displays and calculates the sentiment value for each tweet. The goal is to achieve a competitable result with Sentiment140 API.
+This project is building an Android app which displays and calculates the sentiment value for each tweet. The goal is to achieve a competitive result with [Sentiment140 API](http://help.sentiment140.com/api).
 
 # Related Work
 Several websites have already implemented this idea. The top two from Google search results are [Sentiment140](http://www.sentiment140.com/) and [TweetFeel](http://www.tweetfeel.com/).
