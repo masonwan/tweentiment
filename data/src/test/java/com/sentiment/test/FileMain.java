@@ -22,8 +22,7 @@ public class FileMain {
 
 		// to save word and weight manually to file
 		sf.saveToFile(new Word("happy", 0.80654895));
-		sf.saveToFile(new Word("happy", 0.80654895)); // duplicates will not be
-														// added
+		sf.saveToFile(new Word("happy", 0.80654895)); // duplicates will not be added
 
 		// for our system, directly call getWeight
 		// if the word doesn't exist in the file (memory), the system gets

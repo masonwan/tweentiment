@@ -11,8 +11,7 @@ public interface SentimentFile {
 	/**
 	 * Write the word to the file. Format: word weight Example: happy 0.80654895
 	 * 
-	 * Main purpose is to upload initial data. After that this method is
-	 * implicitly called by getWeight when needed.
+	 * Main purpose is to upload initial data. After that this method is implicitly called by getWeight when needed.
 	 * 
 	 * @param word
 	 *            is the Word object
@@ -20,9 +19,7 @@ public interface SentimentFile {
 	public void saveToFile(Word word) throws IOException;
 
 	/**
-	 * First Reads the File, which is loaded into memory, for the word. If the
-	 * word is not found, get's the word weight, saves it to file and memory and
-	 * returns the weight to the user.
+	 * First Reads the File, which is loaded into memory, for the word. If the word is not found, get's the word weight, saves it to file and memory and returns the weight to the user.
 	 * 
 	 * @param wordName
 	 * @return wordWeight
