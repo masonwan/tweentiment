@@ -59,3 +59,11 @@ local.properties
 
 # PDT-specific
 .buildpath
+
+##### Java
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
