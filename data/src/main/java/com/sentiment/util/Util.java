@@ -8,15 +8,14 @@ import java.net.URL;
 
 /**
  * Util Class for utility methods
- * 
- * @author Lakshmi Mallampati
- *
  */
 public class Util {
-	
+
 	/**
 	 * Call URL and get Response as String
-	 * @param urlStr URL to call
+	 * 
+	 * @param urlStr
+	 *            URL to call
 	 * @return response as String
 	 * @throws IOException
 	 */

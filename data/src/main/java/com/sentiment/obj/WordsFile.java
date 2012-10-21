@@ -4,9 +4,6 @@ import java.util.List;
 
 /**
  * Object to convert json file to memory.
- * 
- * @author Lakshmi Mallampati
- *
  */
 public class WordsFile {
 
@@ -19,7 +16,5 @@ public class WordsFile {
 	public void setWords(List<Word> words) {
 		this.words = words;
 	}
-	
-	
 
 }
