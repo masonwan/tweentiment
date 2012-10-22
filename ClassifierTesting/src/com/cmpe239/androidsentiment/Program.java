@@ -1,9 +1,6 @@
 package com.cmpe239.androidsentiment;
 
-import java.io.*;
-import java.util.*;
-
-import com.cmpe239.androidsentiment.util.*;
+import java.util.regex.*;
 
 public class Program {
 
@@ -12,9 +9,19 @@ public class Program {
 	 */
 	public static void main(String[] args) {
 		String text = "I swear, I can never stay happy.. I always find a way to get in my feelings.";
-		
-		
-		
+
+		Pattern pattern = Pattern.compile("\\w+");
+		Matcher matcher = pattern.matcher(text);
+
+		while (matcher.find()) {
+			System.out.println(matcher.group());
+			System.out.println(matcher.group(0));
+		}
+
+		String[] x = text.replaceAll("\\w+", "").split(" ");
+
+		System.out.println(x);
+
 		// Classifier classifier = null;
 		//
 		// try {

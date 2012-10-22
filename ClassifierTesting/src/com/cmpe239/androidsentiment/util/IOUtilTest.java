@@ -6,7 +6,6 @@ import java.util.*;
 import org.junit.*;
 
 public class IOUtilTest {
-
 	@Test
 	public void readToString() throws IOException {
 		String text = IOUtil.readToString("test/data.json");
@@ -17,7 +16,6 @@ public class IOUtilTest {
 	@Test
 	public void readWordList() throws IOException {
 		ArrayList<String> list = IOUtil.readWordList("test/stop words.txt");
-		Assert.assertEquals(571, list.size());
+		Assert.assertEquals(570, list.size());
 	}
-
 }
