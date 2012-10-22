@@ -3,34 +3,22 @@ package com.cmpe239.androidsentiment;
 import java.util.*;
 
 public class SentimentResult {
-	public ResultType type;
+	public SentimentType type;
 	public double sentimentValue;
+	public ArrayList<Word> positiveWordList;
+	public ArrayList<Word> negativeWordList;
 
-	private List<Word> positiveWords;
+	public SentimentResult(ArrayList<Word> positiveWordList, ArrayList<Word> negativeWordList, double totalSentimentValue) {
+		this.positiveWordList = positiveWordList;
+		this.negativeWordList = negativeWordList;
+		sentimentValue = totalSentimentValue;
 
-	private List<Word> negativeWords;
-
-	public List<Word> getNegativeWords() {
-		return negativeWords;
-	}
-
-	public List<Word> getPositiveWords() {
-		return positiveWords;
-	}
-
-	public SentimentResult(List<Word> positiveWords, List<Word> negativeWords) {
-
-		this.positiveWords = positiveWords;
-		this.negativeWords = negativeWords;
-
-		sentimentValue = 0d;
-
-		for (Word word : positiveWords) {
-			sentimentValue += word.sentimentValue;
-		}
-
-		for (Word word : negativeWords) {
-			sentimentValue += word.sentimentValue;
+		if (sentimentValue == 0) {
+			type = SentimentType.Neutral;
+		} else if (sentimentValue > 0) {
+			type = SentimentType.Positive;
+		} else {
+			type = SentimentType.Negative;
 		}
 	}
 }

@@ -2,7 +2,7 @@ package com.cmpe239.androidsentiment;
 
 import java.io.*;
 import java.util.*;
-
+import java.util.regex.*;
 
 import com.cmpe239.androidsentiment.util.*;
 import com.google.gson.*;
@@ -10,27 +10,61 @@ import com.google.gson.*;
 public class Classifier {
 
 	Gson gson = new Gson();
+	HashSet<String> stopWordSet = new HashSet<String>();
 	HashMap<String, Word> wordMap = new HashMap<String, Word>();
+	Pattern wordPattern = Pattern.compile("\\w+");
 
 	/**
 	 * 
-	 * @param filename
+	 * @param sentimentWordsFilename
 	 *            the name of file used as training set.
 	 * @throws IOException
 	 */
-	public Classifier(String filename) throws IOException {
-		String json = IOUtil.readToString(filename);
-		parseDataSet(json);
+	public Classifier(String sentimentWordsFilename, String stopWordFilename) throws IOException {
+		String sentimentWordsJson = IOUtil.readToString(sentimentWordsFilename);
+		parseDataSet(sentimentWordsJson);
+
+		stopWordSet.clear();
+		ArrayList<String> stopWordList = IOUtil.readWordList(stopWordFilename);
+
+		for (String stopWord : stopWordList) {
+			boolean isOkay = stopWordSet.add(stopWord);
+
+			if (!isOkay) {
+				System.out.printf("'%s' has already been added.\n", stopWord);
+			}
+		}
 	}
 
 	public SentimentResult classify(String text) {
+		ArrayList<Word> positiveWordList = new ArrayList<Word>();
+		ArrayList<Word> negativeWordList = new ArrayList<Word>();
 		double totalSentimentValue = 0d;
 
-		String[] splitWords = text.split("");
-		// TODO
+		Matcher matcher = wordPattern.matcher(text);
 
-		// return new SentimentResult(totalSentimentValue);
-		return null;
+		while (matcher.find()) {
+			String matchedWord = matcher.group();
+
+			if (stopWordSet.contains(matchedWord)) {
+				continue;
+			}
+
+			Word word = wordMap.get(matchedWord);
+
+			if (word != null) {
+				if (word.type == SentimentType.Positive) {
+					positiveWordList.add(new Word(word));
+				} else {
+					negativeWordList.add(new Word(word));
+				}
+
+				totalSentimentValue += word.sentimentValue;
+				continue;
+			}
+		}
+
+		return new SentimentResult(positiveWordList, negativeWordList, totalSentimentValue);
 	}
 
 	@SuppressWarnings("unchecked")
