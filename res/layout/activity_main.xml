@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- Don't user ScrollView or scroll in ListView -->
+
+    <ListView
+        android:id="@+id/tweetListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:smoothScrollbar="false"
+        android:layout_above="@+id/button" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:onClick="buttonClicked"
+        android:text="@string/buttonText"
+        android:textColor="@android:color/primary_text_dark_nodisable"
+        android:background="#ff0099cc"
+        android:layout_margin="2dip" />
+
+</RelativeLayout>

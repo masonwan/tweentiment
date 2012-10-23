@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <ImageView
+        android:id="@+id/userImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:contentDescription="@string/imageDescription" />
+<!-- 
+     <ImageView
+        android:id="@+id/sentimentImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/userImageView"
+        android:layout_toLeftOf="@+id/userImageView"
+        android:layout_margin="5dp"
+        android:contentDescription="@string/sentimentDescription" />
+--> 
+	<ImageView
+        android:id="@+id/sentimentImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userImageView"
+        android:src="@drawable/smile" />
+<!-- 	   
+    <TextView
+        android:id="@+id/sentimentImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userImageView"
+        android:textStyle="bold|normal" />
+--> 
+     <TextView
+        android:id="@+id/usernameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/userImageView"
+        android:layout_toRightOf="@+id/userImageView"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/tweet_bodyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/usernameTextView"
+        android:layout_below="@+id/usernameTextView" />
+
+    <TextView
+        android:id="@+id/created_atTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tweet_bodyTextView"
+        android:layout_below="@+id/tweet_bodyTextView"
+        android:textStyle="bold"
+        android:typeface="sans" />
+
+</RelativeLayout>
