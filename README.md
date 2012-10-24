@@ -10,3 +10,4 @@ library .
 How to run this project?
 ========================
   Environment: Android SDK, Android Emulator 4.1
+  Help on List View: http://www.youtube.com/watch?feature=player_embedded&v=wDBM6wVEO70#!
