@@ -1,11 +1,10 @@
 package com.sentiment.weight;
 
-import java.io.IOException;
+import java.io.*;
 
-import net.sf.json.JSONObject;
-import net.sf.json.JSONSerializer;
+import net.sf.json.*;
 
-import com.sentiment.util.Util;
+import com.sentiment.util.*;
 
 /**
  * viralheat https://www.viralheat.com/
@@ -14,8 +13,7 @@ import com.sentiment.util.Util;
  */
 public class WordWeight {
 
-	private final String VIRALHEAT_KEY = "zWYw1AnRhv7oftC7X75E"; // 5000 Calls
-																	// per day
+	private final String VIRALHEAT_KEY = "zWYw1AnRhv7oftC7X75E"; // 5000 Calls per day
 
 	public Double getWordWeight(String word) throws IOException {
 		String url = "https://www.viralheat.com/api/sentiment/review.json?api_key=" + VIRALHEAT_KEY + "&text=" + word;

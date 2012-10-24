@@ -1,6 +1,6 @@
 package edu.sjsu.tweentiment.pojo;
 
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.*;
 
 public class Tweet {
 	@SerializedName("created_at")
