@@ -2,8 +2,8 @@ package com.sentiment.weight;
 
 import java.io.*;
 
-import net.sf.json.*;
-
+import com.google.gson.Gson;
+import com.sentiment.obj.WordVH;
 import com.sentiment.util.*;
 
 /**
@@ -21,17 +21,13 @@ public class WordWeight {
 		// String jsonTxt =
 		// "{\"prob\":0.806548944920931,\"mood\":\"positive\",\"text\":\"happy\"}";
 		System.out.println("jsonTxt:  " + jsonTxt);
+		
+		Gson gson = new Gson();
+		WordVH wordVh = gson.fromJson(jsonTxt, WordVH.class);
 
-		JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonTxt);
-		Double prob = json.getDouble("prob");
-		String mood = json.getString("mood");
-		// String text = json.getString("text");
-
-		// System.out.println("text: " + text);
-		// System.out.println("prob: " + prob);
-		// System.out.println("mood: " + mood);
-
-		if (mood.equals("negative")) {
+		
+		Double prob = wordVh.getProb();
+		if (wordVh.getMood().equals("negative")) {
 			return prob * -1;
 		}
 
