@@ -3,7 +3,6 @@ package com.cmpe239.androidsentiment;
 import org.junit.*;
 
 public class ClassifierTest {
-
 	Classifier classifier;
 
 	@Before
