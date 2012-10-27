@@ -1,11 +1,12 @@
-package com.cmpe239.androidsentiment;
+package edu.sjsu.tweentiment;
 
 import java.io.*;
 import java.util.*;
 import java.util.regex.*;
 
-import com.cmpe239.androidsentiment.util.*;
 import com.google.gson.*;
+
+import edu.sjsu.tweentiment.util.*;
 
 public class Classifier {
 

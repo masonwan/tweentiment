@@ -1,4 +1,4 @@
-package com.cmpe239.androidsentiment.util;
+package edu.sjsu.tweentiment.util;
 
 import java.io.*;
 import java.util.*;
