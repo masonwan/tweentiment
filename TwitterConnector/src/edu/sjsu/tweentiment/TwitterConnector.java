@@ -54,6 +54,11 @@ public class TwitterConnector {
 		this.accessToken = service.getAccessToken(requestToken, verifier);
 	}
 
+	/**
+	 * TODO: this needs more work.
+	 * A separate thread is needed to deal with the blocking call due to streaming call.
+	 * @return
+	 */
 	public String[] getTweets() {
 		OAuthRequest request = new OAuthRequest(Verb.GET, "https://stream.twitter.com/1.1/statuses/sample.json");
 		service.signRequest(this.accessToken, request);
