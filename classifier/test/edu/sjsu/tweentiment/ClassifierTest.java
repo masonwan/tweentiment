@@ -7,7 +7,7 @@ public class ClassifierTest {
 
 	@Before
 	public void setUp() throws Exception {
-		classifier = new Classifier("test/data.json", "test/stop words.txt");
+		classifier = new Classifier("data.json", "stop words.txt");
 	}
 
 	@Test
