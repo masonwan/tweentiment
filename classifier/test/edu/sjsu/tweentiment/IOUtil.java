@@ -1,4 +1,4 @@
-package edu.sjsu.tweentiment.util;
+package edu.sjsu.tweentiment;
 
 import java.io.*;
 import java.util.*;
@@ -6,13 +6,12 @@ import java.util.*;
 public class IOUtil {
 
 	/**
-	 * @see http://stackoverflow.com/a/5445161/239151
+	 * @see "Read/convert an InputStream to a String" http://stackoverflow.com/a/5445161/239151
 	 * @param filename
 	 * @return the concatenated string from the file
 	 * @throws IOException
 	 */
-	public static String readToString(String filename) throws IOException {
-
+	public static String readFileToString(String filename) throws IOException {
 		String text;
 		InputStream stream = null;
 		Scanner scanner = null;
@@ -34,6 +33,19 @@ public class IOUtil {
 		return text;
 	}
 
+	public static String readStreamToString(InputStream inputStream) throws IOException {
+		StringBuilder builder = new StringBuilder();
+		InputStreamReader reader = new InputStreamReader(inputStream);
+		char[] buffer = new char[8192];
+		int count = 0;
+
+		while ((count = reader.read(buffer)) >= 0) {
+			builder.append(buffer, 0, count);
+		}
+
+		return builder.toString();
+	}
+
 	/**
 	 * 
 	 * @param filename
@@ -41,7 +53,7 @@ public class IOUtil {
 	 * @throws IOException
 	 */
 	public static ArrayList<String> readWordList(String filename) throws IOException {
-		String text = readToString(filename);
+		String text = readFileToString(filename);
 		String[] lines = text.split("\n");
 		ArrayList<String> wordList = new ArrayList<String>();
 

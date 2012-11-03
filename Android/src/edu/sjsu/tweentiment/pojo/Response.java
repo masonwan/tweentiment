@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 public class Response {
 	@SerializedName("results_per_page")
 	private int results_per_page;
+
 	@SerializedName("results")
 	private ArrayList<Tweet> tweets;
 

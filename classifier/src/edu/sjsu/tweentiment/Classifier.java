@@ -22,7 +22,7 @@ public class Classifier {
 	 * @throws IOException
 	 */
 	public Classifier(String sentimentWordsFilename, String stopWordFilename) throws IOException {
-		String sentimentWordsJson = IOUtil.readToString(sentimentWordsFilename);
+		String sentimentWordsJson = IOUtil.readFileToString(sentimentWordsFilename);
 		parseDataSet(sentimentWordsJson);
 
 		stopWordSet.clear();

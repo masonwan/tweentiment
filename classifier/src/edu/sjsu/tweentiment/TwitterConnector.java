@@ -55,8 +55,8 @@ public class TwitterConnector {
 	}
 
 	/**
-	 * TODO: this needs more work.
-	 * A separate thread is needed to deal with the blocking call due to streaming call.
+	 * TODO: this needs more work. A separate thread is needed to deal with the blocking call due to streaming call.
+	 * 
 	 * @return
 	 */
 	public String[] getTweets() {

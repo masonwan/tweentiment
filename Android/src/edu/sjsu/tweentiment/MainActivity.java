@@ -204,27 +204,33 @@ public class MainActivity extends Activity {
 				this.gson = new Gson();
 				this.response = gson.fromJson(bufferedReader, Response.class);
 				this.newTweets = this.response.getTweets();
+
 				if (this.newTweets.size() != 0) {
 					if (this.username == null) {
 						this.username = this.newTweets.get(0).getFrom_user_name();
 					}
+
 					if (this.userImage == null) {
 						this.userImage = BitmapFactory.decodeStream(new URL(this.newTweets.get(0).getProfile_image_url()).openConnection().getInputStream());
 					}
+
 					// if (this.sentimentImage == null) {
 					// this.sentimentImage = null;
 					// }
 					// if (this.sentimentImage == null) {
 					// this.sentimentImage = ":)";
 					// }
+
 					if (this.title == null) {
 						this.title = "@" + this.newTweets.get(0).getFrom_user();
 					}
+
 					return this.newTweets;
 				}
 			} catch (Exception e) {
 				Log.e(TAG, "exception thrown ", e);
 			}
+
 			return null;
 		}
 
