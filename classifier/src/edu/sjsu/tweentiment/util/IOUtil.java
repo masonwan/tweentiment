@@ -3,8 +3,10 @@ package edu.sjsu.tweentiment.util;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Collections of IO utility methods.
+ */
 public class IOUtil {
-
 	/**
 	 * @see "Read/convert an InputStream to a String" http://stackoverflow.com/a/5445161/239151
 	 * @param filename
@@ -33,6 +35,14 @@ public class IOUtil {
 		return text;
 	}
 
+	/**
+	 * Read an input stream to a string.
+	 * 
+	 * @param inputStream
+	 *            The input stream
+	 * @return The read string
+	 * @throws IOException
+	 */
 	public static String readStreamToString(InputStream inputStream) throws IOException {
 		StringBuilder builder = new StringBuilder();
 		InputStreamReader reader = new InputStreamReader(inputStream);
@@ -47,8 +57,10 @@ public class IOUtil {
 	}
 
 	/**
+	 * Read a text file into an array list. Each item corresponds to one line.
 	 * 
 	 * @param filename
+	 *            The path of the file to read
 	 * @return a list of words in ArrayList
 	 * @throws IOException
 	 */

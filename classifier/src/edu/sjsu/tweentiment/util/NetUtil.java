@@ -4,9 +4,9 @@ import java.io.*;
 import java.net.*;
 
 /**
- * Util Class for utility methods
+ * Utility class for network utility methods
  */
-public class Util {
+public class NetUtil {
 
 	/**
 	 * Call URL and get Response as String
