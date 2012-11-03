@@ -18,7 +18,7 @@ public class WordWeight {
 
 	public Double getWordWeight(String word) throws IOException {
 		String url = "https://www.viralheat.com/api/sentiment/review.json?api_key=" + VIRALHEAT_KEY + "&text=" + word;
-		String jsonTxt = Util.httpGet(url);
+		String jsonTxt = NetUtil.httpGet(url);
 		// String jsonTxt =
 		// "{\"prob\":0.806548944920931,\"mood\":\"positive\",\"text\":\"happy\"}";
 		System.out.println("jsonTxt:  " + jsonTxt);

@@ -1,6 +1,5 @@
 package edu.sjsu.tweentiment;
 
-
 import org.junit.*;
 
 public class TwitterConnectorTest {
@@ -11,11 +10,11 @@ public class TwitterConnectorTest {
 		connector = new TwitterConnector();
 	}
 
-//	@Test
-//	public void throughBrowser() {
-//		connector.authenticateThroughBrowser();
-//		String verifyCode = connector.readVerifyCodeFromStandardInput();
-//		connector.verifyToken(verifyCode);
-//		connector.getTweets();
-//	}
+	// @Test
+	// public void throughBrowser() {
+	// connector.authenticateThroughBrowser();
+	// String verifyCode = connector.readVerifyCodeFromStandardInput();
+	// connector.verifyToken(verifyCode);
+	// connector.getTweets();
+	// }
 }
