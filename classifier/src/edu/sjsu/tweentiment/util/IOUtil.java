@@ -1,4 +1,4 @@
-package edu.sjsu.tweentiment;
+package edu.sjsu.tweentiment.util;
 
 import java.io.*;
 import java.util.*;

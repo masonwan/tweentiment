@@ -5,8 +5,6 @@ import java.util.*;
 
 import org.junit.*;
 
-import edu.sjsu.tweentiment.*;
-
 public class IOUtilTest {
 	@Test
 	public void readToString() throws IOException {

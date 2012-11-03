@@ -1,4 +1,4 @@
-package com.sentiment.obj;
+package edu.sjsu.tweentiment.obj;
 
 /**
  * Word object

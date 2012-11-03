@@ -1,10 +1,11 @@
-package com.sentiment.weight;
+package edu.sjsu.tweentiment.weight;
 
 import java.io.*;
 
-import com.google.gson.Gson;
-import com.sentiment.obj.WordVH;
-import com.sentiment.util.*;
+import com.google.gson.*;
+
+import edu.sjsu.tweentiment.obj.*;
+import edu.sjsu.tweentiment.util.*;
 
 /**
  * viralheat https://www.viralheat.com/
@@ -21,11 +22,10 @@ public class WordWeight {
 		// String jsonTxt =
 		// "{\"prob\":0.806548944920931,\"mood\":\"positive\",\"text\":\"happy\"}";
 		System.out.println("jsonTxt:  " + jsonTxt);
-		
+
 		Gson gson = new Gson();
 		WordVH wordVh = gson.fromJson(jsonTxt, WordVH.class);
 
-		
 		Double prob = wordVh.getProb();
 		if (wordVh.getMood().equals("negative")) {
 			return prob * -1;

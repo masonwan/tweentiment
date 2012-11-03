@@ -1,6 +1,6 @@
-package com.sentiment.obj;
+package edu.sjsu.tweentiment.obj;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Object to convert json file to memory.

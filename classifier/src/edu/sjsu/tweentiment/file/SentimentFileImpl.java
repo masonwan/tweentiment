@@ -1,19 +1,12 @@
-package com.sentiment.file;
+package edu.sjsu.tweentiment.file;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
-import com.google.gson.Gson;
-import com.sentiment.obj.Word;
-import com.sentiment.obj.WordsFile;
-import com.sentiment.weight.WordWeight;
+import com.google.gson.*;
+
+import edu.sjsu.tweentiment.obj.*;
+import edu.sjsu.tweentiment.weight.*;
 
 /**
  * Implements getting word sentiment

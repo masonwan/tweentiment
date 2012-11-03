@@ -1,8 +1,8 @@
-package com.sentiment.file;
+package edu.sjsu.tweentiment.file;
 
-import java.io.IOException;
+import java.io.*;
 
-import com.sentiment.obj.Word;
+import edu.sjsu.tweentiment.obj.*;
 
 /**
  * Getting word sentiment
