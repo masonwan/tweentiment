@@ -1,4 +1,4 @@
-package edu.sjsu.tweentiment;
+package edu.sjsu.tweentiment.twitter;
 
 import java.awt.*;
 import java.io.*;
@@ -9,6 +9,9 @@ import org.scribe.builder.api.*;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
 
+/**
+ * The connector with Twitter via OAuth.
+ */
 public class TwitterConnector {
 	final String consumerKey = "D1lSpio5YX0GchoysDqg";
 	final String consumerSecret = "UOezdu7QxraGBiRUb5lo0r0d1DT72lSmWo7Tm3BKNY";
@@ -88,6 +91,11 @@ public class TwitterConnector {
 		return null;
 	}
 
+	/**
+	 * Open an URL in desktop browser.
+	 * 
+	 * @param url
+	 */
 	static void openUrl(String url) {
 		if (Desktop.isDesktopSupported() == false) {
 			return;

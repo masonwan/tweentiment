@@ -1,4 +1,4 @@
-package edu.sjsu.tweentiment;
+package edu.sjsu.tweentiment.twitter;
 
 import org.junit.*;
 
