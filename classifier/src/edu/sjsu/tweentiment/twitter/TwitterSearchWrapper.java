@@ -54,7 +54,7 @@ public class TwitterSearchWrapper {
 		}
 
 		if (httpResponse.getStatusLine().getStatusCode() != HttpURLConnection.HTTP_OK) {
-			System.out.format("HTTP response is %s\n", httpResponse.getStatusLine());
+			// System.out.format("HTTP response is %s\n", httpResponse.getStatusLine());
 			return null;
 		}
 
@@ -71,7 +71,7 @@ public class TwitterSearchWrapper {
 		SearchResponse response = this.originalRespond = gson.fromJson(jsonText, SearchResponse.class);
 
 		if (response.errorMessage != null) {
-			System.out.format("Response contains error: %s\n", response.errorMessage);
+			// System.out.format("Response contains error: %s\n", response.errorMessage);
 			return null;
 		}
 

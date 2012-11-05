@@ -27,13 +27,13 @@ public class TwitterSearchUrlBuilder {
 	@Override
 	public String toString() {
 		String encodedQuery = null;
-		
+
 		try {
 			encodedQuery = URLEncoder.encode(query, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		
+
 		return String.format("%s?q=%s&lang=en&rpp=%d", baseUrlString, encodedQuery, numTweetsPerPage);
 	}
 
