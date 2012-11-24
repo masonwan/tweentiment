@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
+    android:padding="10dip" >
+
+   <EditText
+       android:id="@+id/txtSearch"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"                   
+       android:textSize="12sp"
+       android:layout_marginBottom="8dip"
+       android:hint="@string/inputHintText"
+       />
+
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:orientation="horizontal"
+		android:layout_below="@id/txtSearch"
+		>
+		<Button 
+		    android:text="@string/generalSearch"
+		    android:id="@+id/btnGeneralSearch" 
+			android:layout_weight="1" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:textColor="@android:color/primary_text_dark_nodisable"
+	        android:background="#ff0099cc"
+	        android:layout_margin="2dip"
+	        android:paddingLeft="5dp"
+			/>
+
+		<Button 
+		    android:text="@string/userSearch"
+		    android:id="@+id/btnUserSearch" 
+			android:layout_weight="1"  
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:textColor="@android:color/primary_text_dark_nodisable"
+	        android:background="#ff0099cc"
+	        android:layout_margin="2dip"
+	        android:paddingRight="5dp"
+			/>
+		</LinearLayout>
+<!-- 
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:orientation="horizontal"
+			android:layout_below="@id/txtSearch"
+			>
+		<ImageButton 
+		    android:text="@string/generalSearch"
+		    android:id="@+id/imgBtnSearch" 
+			android:layout_weight="1" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:textColor="@android:color/primary_text_dark_nodisable"
+	        android:background="#ff0099cc"
+	        android:layout_margin="2dip"
+	        android:paddingLeft="5dp"
+	        android:src="@drawable/search"
+			/>
+
+		<ImageButton 
+		    android:text="@string/userSearch"
+		    android:id="@+id/ImgBtnUserSearch" 
+			android:layout_weight="1"  
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:textColor="@android:color/primary_text_dark_nodisable"
+	        android:background="#ff0099cc"
+	        android:layout_margin="2dip"
+	        android:paddingRight="5dp"
+	        android:src="@drawable/user"
+			/>
+
+		</LinearLayout>
+ -->
+ </RelativeLayout>
