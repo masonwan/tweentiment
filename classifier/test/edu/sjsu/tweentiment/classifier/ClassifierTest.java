@@ -9,7 +9,7 @@ public class ClassifierTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		classifier = new Classifier("data.json", "stop words.txt", "noise words.txt");
+		classifier = new Classifier("words.json", "stop words.txt", "noise words.txt");
 	}
 
 	@Test
