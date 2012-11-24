@@ -15,13 +15,24 @@ public class SentimentFileImpl implements SentimentFile {
 
 	// This is the memory
 	private static List<Word> words;
+	private String fileName;
 
-	public SentimentFileImpl() {
+	public SentimentFileImpl(String fileName) {
+		//set fileName
+		this.fileName = fileName;
 		// read file into memory here
 		words = getAllWords();
 	}
-
-	private final String FILE_NAME = "words.json";
+	
+	@Override
+	public String getFileName() {
+		return this.fileName;
+	}
+	
+	@Override
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 
 	@Override
 	public void saveToFile(Word word) throws IOException {
@@ -66,7 +77,7 @@ public class SentimentFileImpl implements SentimentFile {
 	private Word wordExistInFile(String wordName) {
 		// read from memory
 		for (Word word : words) {
-			if (word.getName().equals(wordName)) {
+			if (word!=null && word.getName().equalsIgnoreCase(wordName)) {
 				return word;
 			}
 		}
@@ -81,9 +92,12 @@ public class SentimentFileImpl implements SentimentFile {
 	 */
 	private void writeToFile(String text) throws IOException {
 		Writer output = null;
-		File file = new File(FILE_NAME);
+		File file = new File(fileName);
 		if (file.exists()) {
-			text = ",\n" + text;
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			if(reader.readLine() != null) {
+				text = ",\n" + text;
+			}
 		}
 		output = new BufferedWriter(new FileWriter(file, true)); // true adds on
 		output.write(text);
@@ -100,7 +114,7 @@ public class SentimentFileImpl implements SentimentFile {
 		try {
 			String json = "{'words':[";
 
-			File file = new File(FILE_NAME);
+			File file = new File(fileName);
 
 			if (!file.exists()) { // first time
 				return null;

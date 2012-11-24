@@ -15,7 +15,7 @@ import edu.sjsu.tweentiment.obj.*;
 public class SentimentFileImplTest {
 	@Test
 	public void basic() throws IOException {
-		SentimentFile sf = new SentimentFileImpl();
+		SentimentFile sf = new SentimentFileImpl("words.json");
 
 		// to save word and weight manually to file
 		sf.saveToFile(new Word("happy", 0.80654895));

@@ -6,14 +6,18 @@ import java.util.regex.*;
 
 import com.google.gson.*;
 
+import edu.sjsu.tweentiment.file.SentimentFile;
+import edu.sjsu.tweentiment.file.SentimentFileImpl;
 import edu.sjsu.tweentiment.util.*;
 
 public class Classifier {
 
 	Gson gson = new Gson();
-	HashSet<String> stopWordSet = new HashSet<String>();
-	HashMap<String, Word> wordMap = new HashMap<String, Word>();
-	Pattern wordPattern = Pattern.compile("\\w+");
+	// TreeSet with decrease performance, but this way we can do case insensitive comparision
+	Set<String> stopWordSet = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); 
+	Set<String> noiseWordSet = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+	Pattern wordPattern = Pattern.compile("\\w+'?\\w+");
+	SentimentFile sentimentFile;
 
 	/**
 	 * 
@@ -21,12 +25,13 @@ public class Classifier {
 	 *            the name of file used as training set.
 	 * @throws IOException
 	 */
-	public Classifier(String sentimentWordsFilename, String stopWordFilename) throws IOException {
-		String sentimentWordsJson = IOUtil.readFileToString(sentimentWordsFilename);
-		parseDataSet(sentimentWordsJson);
+	public Classifier(String sentimentWordsFilename, String stopWordFilename, String noiseWordFilename) throws IOException {
+		sentimentFile = new SentimentFileImpl(sentimentWordsFilename);
 
 		stopWordSet.clear();
+		noiseWordSet.clear();
 		ArrayList<String> stopWordList = IOUtil.readWordList(stopWordFilename);
+		ArrayList<String> noiseWordList = IOUtil.readWordList(noiseWordFilename);
 
 		for (String stopWord : stopWordList) {
 			boolean isOkay = stopWordSet.add(stopWord);
@@ -35,49 +40,60 @@ public class Classifier {
 				System.out.printf("'%s' has already been added.\n", stopWord);
 			}
 		}
+		
+		for (String noiseWord : noiseWordList) {
+			if(!stopWordSet.contains(noiseWord)) { // don't want to add a stop word to a noise word list
+				boolean isOkay = noiseWordSet.add(noiseWord);
+	
+				if (!isOkay) {
+					System.out.printf("'%s' has already been added.\n", noiseWord);
+				}
+			}
+		}
 	}
 
-	public SentimentResult classify(String text) {
+	public SentimentResult classify(String text) throws IOException {
 		ArrayList<Word> positiveWordList = new ArrayList<Word>();
 		ArrayList<Word> negativeWordList = new ArrayList<Word>();
-		double totalSentimentValue = 0d;
+		Double totalSentimentValue = 0d;
 
 		Matcher matcher = wordPattern.matcher(text);
-
+		List<String> wordsFromInput = new ArrayList<String>(matcher.groupCount());
+		
 		while (matcher.find()) {
 			String matchedWord = matcher.group();
 
-			if (stopWordSet.contains(matchedWord)) {
+			if (noiseWordSet.contains(matchedWord)) {
 				continue;
+			} else {
+				wordsFromInput.add(matchedWord);
 			}
+		}
 
-			Word word = wordMap.get(matchedWord);
-
-			if (word != null) {
-				if (word.type == SentimentType.Positive) {
-					positiveWordList.add(new Word(word));
-				} else {
-					negativeWordList.add(new Word(word));
+		int gameChanger = 1;
+		for(String wordInput : wordsFromInput) {
+			if (stopWordSet.contains(wordInput)) {
+				gameChanger = -1;
+			} else {
+				Double weight = 0d;
+				try {
+					weight = sentimentFile.getWeight(wordInput);
+				} catch (IOException e) {
+					System.out.println("Failed to get weight because could not read file -- " + sentimentFile.getFileName());
+					throw e;
 				}
-
-				totalSentimentValue += word.sentimentValue;
-				continue;
+				if (weight > 0) {
+					positiveWordList.add(new Word(wordInput, weight));
+				} else if (weight < 0){
+					negativeWordList.add(new Word(wordInput, weight));
+				}
+				//System.out.println(wordInput +": "+ gameChanger * weight); //to see which word got which weight
+				totalSentimentValue += (gameChanger * weight);
+				gameChanger = 1; // reset
+				
 			}
 		}
 
 		return new SentimentResult(positiveWordList, negativeWordList, totalSentimentValue);
 	}
-
-	@SuppressWarnings("unchecked")
-	void parseDataSet(String json) {
-		wordMap.clear();
-		HashMap<String, Double> map = gson.fromJson(json, (new HashMap<String, Double>()).getClass());
-
-		Set<String> set = map.keySet();
-
-		for (String key : set) {
-			wordMap.put(key, new Word(key, map.get(key)));
-		}
-	}
-
 }

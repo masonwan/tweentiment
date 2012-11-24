@@ -8,6 +8,11 @@ import edu.sjsu.tweentiment.obj.*;
  * Getting word sentiment
  */
 public interface SentimentFile {
+	
+	public String getFileName();
+	public void setFileName(String fileName);
+	
+	
 	/**
 	 * Write the word to the file. Format: word weight Example: happy 0.80654895
 	 * 
