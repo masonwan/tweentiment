@@ -29,6 +29,9 @@ Sentiment analysis - Wikipedia, the free encyclopedia
 Sentiment data from several authorities
 <https://github.com/jperla/sentiment-data>
 
+Stop word list
+<http://www.lextek.com/manuals/onix/stopwords2.html>
+
 ## Projects
 Twitter Sentiment Analysis Tutorial
 Datasets, papers, presentations
