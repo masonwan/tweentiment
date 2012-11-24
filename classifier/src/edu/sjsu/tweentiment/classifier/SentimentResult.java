@@ -1,6 +1,8 @@
 package edu.sjsu.tweentiment.classifier;
 
-import java.util.*;
+import java.util.ArrayList;
+
+import edu.sjsu.tweentiment.SentimentType;
 
 public class SentimentResult {
 	public SentimentType type;

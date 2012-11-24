@@ -13,18 +13,11 @@ import edu.sjsu.tweentiment.util.*;
 public class Classifier {
 
 	Gson gson = new Gson();
-	// TreeSet with decrease performance, but this way we can do case insensitive comparision
-	Set<String> stopWordSet = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER); 
+	Set<String> stopWordSet = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 	Set<String> noiseWordSet = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 	Pattern wordPattern = Pattern.compile("\\w+'?\\w+");
 	SentimentFile sentimentFile;
 
-	/**
-	 * 
-	 * @param sentimentWordsFilename
-	 *            the name of file used as training set.
-	 * @throws IOException
-	 */
 	public Classifier(String sentimentWordsFilename, String stopWordFilename, String noiseWordFilename) throws IOException {
 		sentimentFile = new SentimentFileImpl(sentimentWordsFilename);
 
@@ -34,20 +27,13 @@ public class Classifier {
 		ArrayList<String> noiseWordList = IOUtil.readWordList(noiseWordFilename);
 
 		for (String stopWord : stopWordList) {
-			boolean isOkay = stopWordSet.add(stopWord);
-
-			if (!isOkay) {
-				System.out.printf("'%s' has already been added.\n", stopWord);
-			}
+			stopWordSet.add(stopWord);
 		}
-		
+
 		for (String noiseWord : noiseWordList) {
-			if(!stopWordSet.contains(noiseWord)) { // don't want to add a stop word to a noise word list
-				boolean isOkay = noiseWordSet.add(noiseWord);
-	
-				if (!isOkay) {
-					System.out.printf("'%s' has already been added.\n", noiseWord);
-				}
+			if (!stopWordSet.contains(noiseWord)) { // don't want to add a stop
+													// word to a noise word list
+				noiseWordSet.add(noiseWord);
 			}
 		}
 	}
@@ -59,7 +45,7 @@ public class Classifier {
 
 		Matcher matcher = wordPattern.matcher(text);
 		List<String> wordsFromInput = new ArrayList<String>(matcher.groupCount());
-		
+
 		while (matcher.find()) {
 			String matchedWord = matcher.group();
 
@@ -71,26 +57,27 @@ public class Classifier {
 		}
 
 		int gameChanger = 1;
-		for(String wordInput : wordsFromInput) {
+		for (String wordInput : wordsFromInput) {
 			if (stopWordSet.contains(wordInput)) {
 				gameChanger = -1;
 			} else {
 				Double weight = 0d;
+
 				try {
 					weight = sentimentFile.getWeight(wordInput);
 				} catch (IOException e) {
-					System.out.println("Failed to get weight because could not read file -- " + sentimentFile.getFileName());
-					throw e;
+					throw new IOException("Failed to get weight because could not read file -- " + sentimentFile.getFileName());
 				}
+
 				if (weight > 0) {
 					positiveWordList.add(new Word(wordInput, weight));
-				} else if (weight < 0){
+				} else if (weight < 0) {
 					negativeWordList.add(new Word(wordInput, weight));
 				}
-				//System.out.println(wordInput +": "+ gameChanger * weight); //to see which word got which weight
+
 				totalSentimentValue += (gameChanger * weight);
-				gameChanger = 1; // reset
-				
+				gameChanger = 1;
+
 			}
 		}
 

@@ -15,8 +15,8 @@ public class IOUtilTest {
 
 	@Test
 	public void readWordList() throws IOException {
-		ArrayList<String> list = IOUtil.readWordList("stop words.txt");
-		Assert.assertEquals(570, list.size());
+		ArrayList<String> list = IOUtil.readWordList("stop_words.txt");
+		Assert.assertEquals(29, list.size());
 	}
 
 	@Test

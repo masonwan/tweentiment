@@ -4,22 +4,19 @@ import java.io.IOException;
 
 import org.junit.*;
 
+import edu.sjsu.tweentiment.SentimentType;
+
 public class ClassifierTest {
 	Classifier classifier;
-	
+
 	@Before
 	public void setUp() throws Exception {
-		classifier = new Classifier("words.json", "stop words.txt", "noise words.txt");
-	}
-
-	@Test
-	public void readStopWords() {
-		Assert.assertEquals(570, classifier.stopWordSet.size());
+		classifier = new Classifier("words.json", "stop_words.txt", "noise_words.txt");
 	}
 
 	@Test
 	public void neutral() throws IOException {
-		SentimentResult result = classifier.classify("Hello world");
+		SentimentResult result = classifier.classify("The file is less than 8GB in size.");
 		Assert.assertEquals(SentimentType.Neutral, result.type);
 	}
 
@@ -30,8 +27,20 @@ public class ClassifierTest {
 	}
 
 	@Test
-	public void negative() throws IOException {
+	public void negative1() throws IOException {
 		SentimentResult result = classifier.classify("I messed up my midterm. I will be in the hell in the rest of the semester.");
+		Assert.assertEquals(SentimentType.Negative, result.type);
+	}
+
+	@Test
+	public void negative2() throws IOException {
+		SentimentResult result = classifier.classify("Go hell, faggot!");
+		Assert.assertEquals(SentimentType.Negative, result.type);
+	}
+
+	@Test
+	public void negative3() throws IOException {
+		SentimentResult result = classifier.classify("shit");
 		Assert.assertEquals(SentimentType.Negative, result.type);
 	}
 

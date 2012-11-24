@@ -1,4 +1,4 @@
-package edu.sjsu.tweentiment.obj;
+package edu.sjsu.tweentiment.file;
 
 /**
  * For converting the json returned by viralheat to a java object.

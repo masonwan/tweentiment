@@ -1,8 +1,15 @@
 package edu.sjsu.tweentiment.classifier;
 
+import com.google.gson.annotations.*;
+
+import edu.sjsu.tweentiment.SentimentType;
+
 public class Word {
+	@SerializedName("name")
 	public String text;
+	@SerializedName("weight")
 	public double sentimentValue = 0d;
+	@Expose
 	public SentimentType type = SentimentType.Neutral;
 
 	public Word(String text, double sentimentValue) {

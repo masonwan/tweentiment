@@ -1,4 +1,4 @@
-package edu.sjsu.tweentiment.classifier;
+package edu.sjsu.tweentiment;
 
 public enum SentimentType {
 	Neutral, Positive, Negative,

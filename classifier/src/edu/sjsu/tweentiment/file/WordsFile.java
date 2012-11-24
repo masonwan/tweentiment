@@ -1,9 +1,11 @@
-package edu.sjsu.tweentiment.obj;
+package edu.sjsu.tweentiment.file;
 
-import java.util.*;
+import java.util.List;
+
+import edu.sjsu.tweentiment.classifier.Word;
 
 /**
- * Object to convert json file to memory.
+ * Object to convert JSON file to memory.
  */
 public class WordsFile {
 

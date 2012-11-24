@@ -1,11 +1,10 @@
-package edu.sjsu.tweentiment.weight;
+package edu.sjsu.tweentiment.file;
 
-import java.io.*;
+import java.io.IOException;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
 
-import edu.sjsu.tweentiment.obj.*;
-import edu.sjsu.tweentiment.util.*;
+import edu.sjsu.tweentiment.util.NetUtil;
 
 /**
  * viralheat https://www.viralheat.com/
@@ -14,7 +13,8 @@ import edu.sjsu.tweentiment.util.*;
  */
 public class WordWeight {
 
-	private final String VIRALHEAT_KEY = "zWYw1AnRhv7oftC7X75E"; // 5000 Calls per day
+	private final String VIRALHEAT_KEY = "zWYw1AnRhv7oftC7X75E"; // 5000 Calls
+																	// per day
 
 	public Double getWordWeight(String word) throws IOException {
 		String url = "https://www.viralheat.com/api/sentiment/review.json?api_key=" + VIRALHEAT_KEY + "&text=" + word;
