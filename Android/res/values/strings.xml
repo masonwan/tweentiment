@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="app_name">TweetSentiment</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">Tweentiment!</string>
+    <string name="buttonText">More Sentiment!</string>
+    <string name="imageDescription">Avatar</string>
+    <string name="sentimentDescription">Smile</string>
+    <string name="inputHintText">Please type a tweet keyword or username</string>
+    <string name="searchButtonText">Show Sentiment</string>
+	<string name="generalSearch">Tweets</string>
+	<string name="userSearch">Username</string>
+</resources>
