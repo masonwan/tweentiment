@@ -2,6 +2,8 @@ package edu.sjsu.tweentiment.twitter;
 
 import com.google.gson.annotations.*;
 
+import edu.sjsu.tweentiment.classifier.SentimentResult;
+
 public class Tweet {
 	@SerializedName("created_at")
 	public String createAt;
@@ -31,4 +33,6 @@ public class Tweet {
 
 		return isRetweet = text.startsWith("RT");
 	}
+	
+	public SentimentResult sentimentResult; 
 }

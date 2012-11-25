@@ -15,7 +15,7 @@ import android.os.*;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
-import edu.sjsu.tweentiment.classifier.*;
+import edu.sjsu.tweentiment.classifier.Classifier;
 import edu.sjsu.tweentiment.twitter.*;
 import edu.sjsu.tweentiment.util.IOUtil;
 
@@ -82,9 +82,9 @@ public class MainActivity extends Activity {
 			Resources resources = getResources();
 			InputStream stopWordsStream = resources.openRawResource(R.raw.stop_words);
 			InputStream noiseWordsStream = resources.openRawResource(R.raw.noise_words);
-			
+
 			classifier = new Classifier(sentimentWordsFile.getAbsolutePath(), stopWordsStream, noiseWordsStream);
-			
+
 			stopWordsStream.close();
 			noiseWordsStream.close();
 		} catch (IOException e) {
@@ -206,6 +206,7 @@ public class MainActivity extends Activity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			Tweet singleTweet = this.tweet.get(position);
 			TweetHolder tweetHolder;
+
 			if (convertView == null) {
 				convertView = MainActivity.this.layoutInflater.inflate(R.layout.tweet_unit, parent, false);
 				tweetHolder = new TweetHolder();
@@ -221,25 +222,17 @@ public class MainActivity extends Activity {
 				tweetHolder = (TweetHolder) convertView.getTag();
 			}
 
-			// get the text content of each tweet
-			String tweetText = singleTweet.text;
+			// Get the text content of each Tweet.
 			int resourceId = R.drawable.neutral;
 
-			SentimentResult result = null;
-			try {
-				result = classifier.classify(tweetText);
-
-				if (result.type == SentimentType.Positive) {
-					resourceId = R.drawable.happy;
-				} else if (result.type == SentimentType.Negative) {
-					resourceId = R.drawable.sad;
-				}
-			} catch (IOException e1) {
-				e1.printStackTrace();
+			if (singleTweet.sentimentResult.type == SentimentType.Positive) {
+				resourceId = R.drawable.happy;
+			} else if (singleTweet.sentimentResult.type == SentimentType.Negative) {
+				resourceId = R.drawable.sad;
 			}
 
 			tweetHolder.sentimentImageView.setImageResource(resourceId);
-			tweetHolder.tweet_bodyTextView.setText(tweetText);
+			tweetHolder.tweet_bodyTextView.setText(singleTweet.text);
 
 			try {
 				tweetHolder.created_atTextView.setText(OUTGOING_DATE_FORMAT.format(INCOMING_DATE_FORMAT.parse(singleTweet.createAt)));
@@ -279,6 +272,10 @@ public class MainActivity extends Activity {
 				TwitterSearchWrapper searchWrapper = new TwitterSearchWrapper(builder);
 				ArrayList<Tweet> tweetList = searchWrapper.getTweets();
 				this.newTweets = tweetList;
+
+				for (Tweet tweet : tweetList) {
+					tweet.sentimentResult = classifier.classify(tweet.text);
+				}
 
 				if (this.newTweets.size() != 0) {
 					Tweet firstTweet = this.newTweets.get(0);
