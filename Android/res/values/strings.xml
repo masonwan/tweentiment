@@ -6,8 +6,9 @@
     <string name="buttonText">More Sentiment!</string>
     <string name="imageDescription">Avatar</string>
     <string name="sentimentDescription">Smile</string>
-    <string name="inputHintText">Please type a tweet keyword or username</string>
+    <string name="inputHintText">Type a tweet keyword or username or #tag</string>
     <string name="searchButtonText">Show Sentiment</string>
 	<string name="generalSearch">Tweets</string>
-	<string name="userSearch">Username</string>
+	<string name="userSearch">User</string>
+	<string name="hashTagSearch">#Tag</string>
 </resources>
