@@ -32,6 +32,7 @@ public class MainActivity extends Activity {
 	private static final DateFormat OUTGOING_DATE_FORMAT = new SimpleDateFormat("EEE, dd MMM yyyy KK:mm:ss a", Locale.getDefault());
 
 	Classifier classifier;
+	String searchType;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,8 +41,8 @@ public class MainActivity extends Activity {
 
 		Bundle bundle = getIntent().getExtras();
 		this.searchQuery = bundle.getString("TWEET_KEYWORD").trim();
-		String searchType = bundle.getString("SEARCH_TYPE").trim();
-		Log.d(TAG, "Search Type = " + searchType);
+		this.searchType = bundle.getString("SEARCH_TYPE").trim();
+		Log.d(TAG, "Search Type = " + this.searchType);
 
 		TextView welcomeTextView = (TextView) findViewById(R.id.welcomeLabel);
 		welcomeTextView.setText("Sentiment keyword: " + this.searchQuery);
@@ -96,64 +97,6 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	/**
-	 * Builds a URL using a search keyword
-	 * 
-	 * @param String
-	 *            keyword - Search term
-	 * @param String
-	 *            searchType - general | user
-	 * @return String url
-	 */
-	public final String urlBuilder(String keyword, String searchType) {
-		String replacementString = "";
-		String url = "";
-
-		if (keyword.equals("")) {
-			return url;
-		}
-
-		if (searchType.equals("general")) {
-			replacementString = "%20";
-			keyword = this.replace(keyword, " ", replacementString);
-			Log.d(TAG, "Keyword = " + keyword);
-		}
-
-		if (searchType.equals("user")) {
-			keyword = "from%3A" + keyword;
-			Log.d(TAG, "Keyword = " + keyword);
-		}
-
-		url = "http://search.twitter.com/search.json?q=" + keyword + "&result_type=recent&rpp=2&page=";
-		Log.d(TAG, "URL = " + url);
-
-		return url;
-	}
-
-	/**
-	 * Replaces white spaces with the desired string
-	 * 
-	 * @param String
-	 *            text - hay stack
-	 * @param String
-	 *            searchString - niddle
-	 * @param String
-	 *            replacementString
-	 * @return String
-	 */
-	public final String replace(String text, String searchString, String replacementString) {
-		StringBuffer sBuffer = new StringBuffer();
-		int pos = 0;
-
-		while ((pos = text.indexOf(searchString)) != -1) {
-			sBuffer.append(text.substring(0, pos) + replacementString);
-			text = text.substring(pos + searchString.length());
-		}
-
-		sBuffer.append(text);
-		return sBuffer.toString();
-	}
-
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -187,9 +130,7 @@ public class MainActivity extends Activity {
 	}
 
 	static class TweetHolder {
-		// ImageView userImageView;
 		ImageView sentimentImageView;
-		// TextView usernameTextView;
 		TextView tweet_bodyTextView;
 		TextView created_atTextView;
 	}
@@ -210,11 +151,7 @@ public class MainActivity extends Activity {
 			if (convertView == null) {
 				convertView = MainActivity.this.layoutInflater.inflate(R.layout.tweet_unit, parent, false);
 				tweetHolder = new TweetHolder();
-				// tweetHolder.userImageView = (ImageView) convertView
-				// .findViewById(R.id.userImageView);
 				tweetHolder.sentimentImageView = (ImageView) convertView.findViewById(R.id.sentimentImageView);
-				// tweetHolder.usernameTextView = (TextView) convertView
-				// .findViewById(R.id.usernameTextView);
 				tweetHolder.tweet_bodyTextView = (TextView) convertView.findViewById(R.id.tweet_bodyTextView);
 				tweetHolder.created_atTextView = (TextView) convertView.findViewById(R.id.created_atTextView);
 				convertView.setTag(tweetHolder);
@@ -268,7 +205,7 @@ public class MainActivity extends Activity {
 		@Override
 		protected ArrayList<Tweet> doInBackground(String... searchQuery) {
 			try {
-				TwitterSearchUrlBuilder builder = new TwitterSearchUrlBuilder(MainActivity.this.searchQuery, 5);
+				TwitterSearchUrlBuilder builder = new TwitterSearchUrlBuilder(MainActivity.this.searchQuery, 5, MainActivity.this.searchType);
 				TwitterSearchWrapper searchWrapper = new TwitterSearchWrapper(builder);
 				ArrayList<Tweet> tweetList = searchWrapper.getTweets();
 				this.newTweets = tweetList;
