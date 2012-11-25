@@ -1,19 +1,19 @@
 package edu.sjsu.tweentiment.twitter;
 
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.*;
 
 public class Tweet {
 	@SerializedName("created_at")
-	public String created_at;
+	public String createAt;
 
 	@SerializedName("from_user")
-	public String from_user;
+	public String fromUser;
 
 	@SerializedName("from_user_name")
-	public String from_user_name;
+	public String fromUserName;
 
 	@SerializedName("profile_image_url")
-	public String profile_image_url;
+	public String profileImageUrlString;
 
 	@SerializedName("id_str")
 	public String id;
@@ -21,6 +21,7 @@ public class Tweet {
 	@SerializedName("text")
 	public String text;
 
+	@Expose
 	private Boolean isRetweet = null;
 
 	public boolean isRetweet() {

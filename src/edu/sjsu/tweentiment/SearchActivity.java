@@ -14,18 +14,28 @@ public class SearchActivity extends Activity {
 	private Button searchBtn;
 	private Button userBtn;
 	private static final String TAG = "TwitterApp";
+	
+	String query = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search);
+
+		EditText editText = (EditText) findViewById(R.id.txtSearch);
+		
+		if (query == null) {
+			editText.setText("#christmas");
+		} else {
+			editText.setText(query);
+		}
 
 		this.searchBtn = (Button) findViewById(R.id.btnGeneralSearch);
 		this.searchBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				EditText searchText = (EditText) findViewById(R.id.txtSearch);
-				String keyword = searchText.getText().toString();
+				String keyword = searchText.getText().toString().trim();
+				query = keyword;
 
 				Intent intent = new Intent(SearchActivity.this, MainActivity.class);
 				intent.putExtra("TWEET_KEYWORD", keyword);
@@ -43,7 +53,7 @@ public class SearchActivity extends Activity {
 		this.userBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				EditText searchText = (EditText) findViewById(R.id.txtSearch);
-				String keyword = searchText.getText().toString();
+				String keyword = searchText.getText().toString().trim();
 
 				Intent intent = new Intent(SearchActivity.this, MainActivity.class);
 				intent.putExtra("TWEET_KEYWORD", keyword);

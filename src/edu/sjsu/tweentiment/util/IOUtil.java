@@ -7,13 +7,6 @@ import java.util.*;
  * Collections of IO utility methods.
  */
 public class IOUtil {
-	/**
-	 * @see "Read/convert an InputStream to a String"
-	 *      http://stackoverflow.com/a/5445161/239151
-	 * @param filename
-	 * @return the concatenated string from the file
-	 * @throws IOException
-	 */
 	public static String readFileToString(String filename) throws IOException {
 		String text;
 		InputStream stream = null;
@@ -36,14 +29,6 @@ public class IOUtil {
 		return text;
 	}
 
-	/**
-	 * Read an input stream to a string.
-	 * 
-	 * @param inputStream
-	 *            The input stream
-	 * @return The read string
-	 * @throws IOException
-	 */
 	public static String readStreamToString(InputStream inputStream) throws IOException {
 		StringBuilder builder = new StringBuilder();
 		InputStreamReader reader = new InputStreamReader(inputStream);
@@ -57,14 +42,6 @@ public class IOUtil {
 		return builder.toString();
 	}
 
-	/**
-	 * Read a text file into an array list. Each item corresponds to one line.
-	 * 
-	 * @param filename
-	 *            The path of the file to read
-	 * @return a list of words in ArrayList
-	 * @throws IOException
-	 */
 	public static ArrayList<String> readWordList(String filename) throws IOException {
 		String text = readFileToString(filename);
 		String[] lines = text.split("\n");
@@ -73,7 +50,7 @@ public class IOUtil {
 		for (String line : lines) {
 			String trimedText = line.trim();
 
-			if (trimedText.isEmpty() || trimedText.charAt(0) == '#') {
+			if (trimedText.equals("") || trimedText.charAt(0) == '#') {
 				continue;
 			}
 
@@ -81,5 +58,34 @@ public class IOUtil {
 		}
 
 		return wordList;
+	}
+
+	public static ArrayList<String> readWordListFromStream(InputStream inputStream) throws IOException {
+		String text = readStreamToString(inputStream);
+		String[] lines = text.split("\n");
+		ArrayList<String> wordList = new ArrayList<String>();
+
+		for (String line : lines) {
+			String trimedText = line.trim();
+
+			if (trimedText.equals("") || trimedText.charAt(0) == '#') {
+				continue;
+			}
+
+			wordList.add(trimedText);
+		}
+
+		return wordList;
+	}
+
+	public static void copyStream(InputStream inputStream, OutputStream outputStream) throws IOException {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
+		char[] buffer = new char[8192];
+		int count = 0;
+
+		while ((count = reader.read(buffer)) >= 0) {
+			writer.write(buffer, 0, count);
+		}
 	}
 }

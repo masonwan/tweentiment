@@ -6,28 +6,21 @@ import java.text.*;
 import java.text.ParseException;
 import java.util.*;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
 import android.app.*;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.*;
 import android.net.*;
 import android.os.*;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
-
-import com.google.gson.Gson;
-
-import edu.sjsu.tweentiment.pojo.*;
+import edu.sjsu.tweentiment.classifier.*;
+import edu.sjsu.tweentiment.twitter.*;
+import edu.sjsu.tweentiment.util.IOUtil;
 
 public class MainActivity extends Activity {
-	private String jsonUrl;
-	private String searchKeyword = "";
-	private int count = 0;
+	private String searchQuery = "";
 	private ListView listView;
 	private ArrayList<Tweet> tweets = new ArrayList<Tweet>();
 	private ArrayAdapter<Tweet> listAdapter;
@@ -38,29 +31,65 @@ public class MainActivity extends Activity {
 	private static final DateFormat INCOMING_DATE_FORMAT = new SimpleDateFormat("EEE, dd MMM yyyy kk:mm:ss zzz", Locale.getDefault());
 	private static final DateFormat OUTGOING_DATE_FORMAT = new SimpleDateFormat("EEE, dd MMM yyyy KK:mm:ss a", Locale.getDefault());
 
+	Classifier classifier;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
 		Bundle bundle = getIntent().getExtras();
-		this.searchKeyword = bundle.getString("TWEET_KEYWORD").trim();
+		this.searchQuery = bundle.getString("TWEET_KEYWORD").trim();
 		String searchType = bundle.getString("SEARCH_TYPE").trim();
 		Log.d(TAG, "Search Type = " + searchType);
 
 		TextView welcomeTextView = (TextView) findViewById(R.id.welcomeLabel);
-		welcomeTextView.setText("Sentiment keyword: " + this.searchKeyword);
+		welcomeTextView.setText("Sentiment keyword: " + this.searchQuery);
 
-		if (this.searchKeyword.equals("")) {
-			Log.d(TAG, "KW (buttonClicked) = " + this.searchKeyword.equals(""));
+		if (this.searchQuery.equals("")) {
+			Log.d(TAG, "KW (buttonClicked) = " + this.searchQuery.equals(""));
 			Toast.makeText(MainActivity.this, "Please go back and enter a search string!", Toast.LENGTH_SHORT).show();
 		} else {
-			this.jsonUrl = this.urlBuilder(this.searchKeyword, searchType);
 			this.listView = (ListView) findViewById(R.id.tweetListView);
 			this.listAdapter = new TweetAdapter(this, R.layout.tweet_unit, this.tweets);
 			this.listView.setAdapter(listAdapter);
 			this.layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
+
+		boolean isOkay = initializeClassifier();
+		Log.i("onCreate", String.format("Classifier initialization: ", isOkay));
+	}
+
+	boolean initializeClassifier() {
+		try {
+			File internalStorageDirecotry = getFilesDir();
+			File sentimentWordsFile = new File(internalStorageDirecotry, "words.json");
+
+			if (sentimentWordsFile.exists() == false) {
+				InputStream sentimentStream = getResources().openRawResource(R.raw.words);
+				boolean isOkay = sentimentWordsFile.createNewFile();
+
+				if (isOkay == false) {
+					Toast.makeText(this, "The file system doesn't allow writing", Toast.LENGTH_SHORT);
+					return false;
+				}
+
+				OutputStream outputStream = new FileOutputStream(sentimentWordsFile);
+				IOUtil.copyStream(sentimentStream, outputStream);
+				outputStream.close();
+			}
+
+			Resources resources = getResources();
+			InputStream stopWordsStream = resources.openRawResource(R.raw.stop_words);
+			InputStream noiseWordsStream = resources.openRawResource(R.raw.noise_words);
+			classifier = new Classifier(sentimentWordsFile.getAbsolutePath(), stopWordsStream, noiseWordsStream);
+		} catch (IOException e) {
+			Log.e("critical", e.getMessage());
+			Toast.makeText(this, "Classifier failed to load", Toast.LENGTH_LONG).show();
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -136,16 +165,17 @@ public class MainActivity extends Activity {
 	private void loadTweet() {
 		ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
 		if (networkInfo != null && networkInfo.isConnected()) {
-			new LoadTask(this).execute(this.jsonUrl + ++count);
+			new LoadTask(this).execute(this.searchQuery);
 		} else {
 			Toast.makeText(this, "No Internet Connectivity !", Toast.LENGTH_LONG).show();
 		}
 	}
 
 	public void buttonClicked(View view) {
-		if (this.searchKeyword.equals("")) {
-			Log.d(TAG, "KW (buttonClicked) = " + this.searchKeyword.equals(""));
+		if (this.searchQuery.equals("")) {
+			Log.d(TAG, "KW (buttonClicked) = " + this.searchQuery.equals(""));
 			Toast.makeText(MainActivity.this, "Please go back and enter a search string!", Toast.LENGTH_SHORT).show();
 		} else {
 			this.loadTweet();
@@ -188,42 +218,37 @@ public class MainActivity extends Activity {
 			}
 
 			// get the text content of each tweet
-			String tweetText = singleTweet.getText();
-			/**
-			 * // integrate our classifier here sentiment =
-			 * Classifier(tweetText); sentiment->classify();
-			 * 
-			 * if (sentiment > 0){
-			 * tweetHolder.sentimentImageView.setImageResource
-			 * (R.drawable.happy); }else if(sentiment < 0){
-			 * tweetHolder.sentimentImageView.setImageResource(R.drawable.sad);
-			 * }else{
-			 * tweetHolder.sentimentImageView.setImageResource(R.drawable.
-			 * neutral); }
-			 */
-			// TODO: add sentiment generated by classifier for this tweet here
-			tweetHolder.sentimentImageView.setImageResource(R.drawable.happy);
+			String tweetText = singleTweet.text;
+			int resourceId = R.drawable.neutral;
 
-			// tweetHolder.usernameTextView.setText(MainActivity.this.username);
-			tweetHolder.tweet_bodyTextView.setText(tweetText);
+			SentimentResult result = null;
 			try {
-				tweetHolder.created_atTextView.setText(OUTGOING_DATE_FORMAT.format(INCOMING_DATE_FORMAT.parse(singleTweet.getCreated_at())));
+				result = classifier.classify(tweetText);
+
+				if (result.type == SentimentType.Positive) {
+					resourceId = R.drawable.happy;
+				} else if (result.type == SentimentType.Negative) {
+					resourceId = R.drawable.sad;
+				}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+
+			tweetHolder.sentimentImageView.setImageResource(resourceId);
+			tweetHolder.tweet_bodyTextView.setText(tweetText);
+
+			try {
+				tweetHolder.created_atTextView.setText(OUTGOING_DATE_FORMAT.format(INCOMING_DATE_FORMAT.parse(singleTweet.createAt)));
 			} catch (ParseException e) {
 				tweetHolder.created_atTextView.setText("");
 			}
-			// tweetHolder.userImageView.setImageBitmap(MainActivity.this.userImage);
 
 			return convertView;
 		}
 	}
 
 	private class LoadTask extends AsyncTask<String, Integer, ArrayList<Tweet>> {
-		private final HttpClient httpClient = new DefaultHttpClient();
-		private HttpResponse httpResponse;
-		private BufferedReader bufferedReader;
-		private Gson gson;
 		private ArrayList<Tweet> newTweets;
-		private Response response;
 		private String username;
 		private Bitmap userImage;
 		private String title;
@@ -244,53 +269,60 @@ public class MainActivity extends Activity {
 		}
 
 		@Override
-		protected ArrayList<Tweet> doInBackground(String... url) {
+		protected ArrayList<Tweet> doInBackground(String... searchQuery) {
 			try {
-				this.httpResponse = this.httpClient.execute(new HttpGet(url[0]));
-				this.bufferedReader = new BufferedReader(new InputStreamReader(this.httpResponse.getEntity().getContent()));
-				this.gson = new Gson();
-				this.response = gson.fromJson(bufferedReader, Response.class);
-				this.newTweets = this.response.getTweets();
+				TwitterSearchUrlBuilder builder = new TwitterSearchUrlBuilder(MainActivity.this.searchQuery, 5);
+				TwitterSearchWrapper searchWrapper = new TwitterSearchWrapper(builder);
+				ArrayList<Tweet> tweetList = searchWrapper.getTweets();
+				this.newTweets = tweetList;
+
 				if (this.newTweets.size() != 0) {
+					Tweet firstTweet = this.newTweets.get(0);
+
 					if (this.username == null) {
-						this.username = this.newTweets.get(0).getFrom_user_name();
+						this.username = firstTweet.profileImageUrlString;
 					}
+
 					if (this.userImage == null) {
-						this.userImage = BitmapFactory.decodeStream(new URL(this.newTweets.get(0).getProfile_image_url()).openConnection().getInputStream());
+						this.userImage = BitmapFactory.decodeStream(new URL(firstTweet.profileImageUrlString).openConnection().getInputStream());
 					}
+
 					if (this.title == null) {
 						this.title = "Tweentiment";
 					}
+
 					return this.newTweets;
 				}
 			} catch (Exception e) {
 				Log.e(TAG, "exception thrown ", e);
 			}
+
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(ArrayList<Tweet> result) {
 			super.onPostExecute(result);
+
 			if (result != null) {
 				if (MainActivity.this.title == null) {
-					// MainActivity.this.username = this.username;
-					// MainActivity.this.userImage = this.userImage;
 					MainActivity.this.title = this.title;
 					MainActivity.this.setTitle(this.title);
 				}
+
 				MainActivity.this.tweets.addAll(result);
 				Log.d(TAG, "Showing : " + MainActivity.this.tweets.size());
 				MainActivity.this.listAdapter.notifyDataSetChanged();
 			} else {
-				if (MainActivity.this.searchKeyword.equals("")) {
-					Log.d(TAG, "KW (onPostExecute) = " + MainActivity.this.searchKeyword.equals(""));
+				if (MainActivity.this.searchQuery.equals("")) {
+					Log.d(TAG, "KW (onPostExecute) = " + MainActivity.this.searchQuery.equals(""));
 
 					Toast.makeText(MainActivity.this, "Please go back and enter a search string!", Toast.LENGTH_SHORT).show();
 				} else {
 					Toast.makeText(MainActivity.this, "No more Tweets!", Toast.LENGTH_SHORT).show();
 				}
 			}
+
 			if (this.progressDialog != null && this.progressDialog.isShowing()) {
 				this.progressDialog.dismiss();
 			}

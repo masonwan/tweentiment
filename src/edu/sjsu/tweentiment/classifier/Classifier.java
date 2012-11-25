@@ -1,6 +1,6 @@
 package edu.sjsu.tweentiment.classifier;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.regex.*;
 
@@ -17,13 +17,13 @@ public class Classifier {
 	Pattern wordPattern = Pattern.compile("\\w+'?\\w+");
 	SentimentFile sentimentFile;
 
-	public Classifier(String sentimentWordsFilename, String stopWordFilename, String noiseWordFilename) throws IOException {
+	public Classifier(String sentimentWordsFilename, InputStream stopWordsStream, InputStream noiseWordsStream) throws IOException {
 		sentimentFile = new SentimentFileImpl(sentimentWordsFilename);
 
 		stopWordSet.clear();
 		noiseWordSet.clear();
-		ArrayList<String> stopWordList = IOUtil.readWordList(stopWordFilename);
-		ArrayList<String> noiseWordList = IOUtil.readWordList(noiseWordFilename);
+		ArrayList<String> stopWordList = IOUtil.readWordListFromStream(stopWordsStream);
+		ArrayList<String> noiseWordList = IOUtil.readWordListFromStream(noiseWordsStream);
 
 		for (String stopWord : stopWordList) {
 			stopWordSet.add(stopWord);
