@@ -82,7 +82,11 @@ public class MainActivity extends Activity {
 			Resources resources = getResources();
 			InputStream stopWordsStream = resources.openRawResource(R.raw.stop_words);
 			InputStream noiseWordsStream = resources.openRawResource(R.raw.noise_words);
+			
 			classifier = new Classifier(sentimentWordsFile.getAbsolutePath(), stopWordsStream, noiseWordsStream);
+			
+			stopWordsStream.close();
+			noiseWordsStream.close();
 		} catch (IOException e) {
 			Log.e("critical", e.getMessage());
 			Toast.makeText(this, "Classifier failed to load", Toast.LENGTH_LONG).show();
