@@ -15,7 +15,7 @@ public class TwitterSearchWrapperTest {
 	public void emptyQuery() {
 		wrapper = new TwitterSearchWrapper("          ");
 
-		ArrayList<Tweet> tweetList = wrapper.getTweets();
+		List<Tweet> tweetList = wrapper.getTweets();
 
 		Assert.assertNull(tweetList);
 	}
@@ -23,10 +23,10 @@ public class TwitterSearchWrapperTest {
 	@Test
 	public void getTweets() {
 		int numTweets = 100;
-		TwitterSearchUrlBuilder urlBuilder = new TwitterSearchUrlBuilder("#apple stock", numTweets);
+		TwitterSearchUrlBuilder urlBuilder = new TwitterSearchUrlBuilder("#apple stock", numTweets, SearchType.General);
 		wrapper = new TwitterSearchWrapper(urlBuilder);
 
-		ArrayList<Tweet> tweetList = wrapper.getTweets();
+		List<Tweet> tweetList = wrapper.getTweets();
 
 		Assert.assertNotNull(tweetList);
 		Assert.assertTrue(tweetList.size() <= numTweets);

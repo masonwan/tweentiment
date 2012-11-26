@@ -1,9 +1,9 @@
 package edu.sjsu.tweentiment.twitter;
 
-import java.net.*;
+import java.net.URI;
 
 import org.junit.*;
-import org.junit.rules.*;
+import org.junit.rules.ExpectedException;
 
 public class TwitterSearchUrlBuilderTest {
 	@Rule
@@ -51,7 +51,7 @@ public class TwitterSearchUrlBuilderTest {
 
 	@Test
 	public void fiftyTweetQuery() {
-		TwitterSearchUrlBuilder builder = new TwitterSearchUrlBuilder("christmas #idea", 50);
+		TwitterSearchUrlBuilder builder = new TwitterSearchUrlBuilder("christmas #idea", 50, SearchType.General);
 		URI uri = builder.toUri();
 		Assert.assertEquals("http://search.twitter.com/search.json?q=christmas+%23idea&lang=en&rpp=50", uri.toString());
 	}
