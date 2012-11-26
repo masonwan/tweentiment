@@ -2,7 +2,7 @@ package edu.sjsu.tweentiment.twitter;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.ArrayList;
+import java.util.*;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.*;
@@ -38,7 +38,7 @@ public class TwitterSearchWrapper {
 		this(urlBuilder.toUri());
 	}
 
-	public ArrayList<Tweet> getTweets() {
+	public List<Tweet> getTweets() {
 		HttpClient httpClient = new DefaultHttpClient();
 
 		HttpGet httpGet = new HttpGet(this.uri);
@@ -55,9 +55,7 @@ public class TwitterSearchWrapper {
 		}
 
 		if (httpResponse.getStatusLine().getStatusCode() != HttpURLConnection.HTTP_OK) {
-			// System.out.format("HTTP response is %s\n",
-			// httpResponse.getStatusLine());
-			return null;
+			return new ArrayList<Tweet>();
 		}
 
 		String jsonText = null;
@@ -73,39 +71,36 @@ public class TwitterSearchWrapper {
 		SearchResponse response = this.originalRespond = gson.fromJson(jsonText, SearchResponse.class);
 
 		if (response.errorMessage != null) {
-			// System.out.format("Response contains error: %s\n",
-			// response.errorMessage);
 			return null;
 		}
 
-		ArrayList<Tweet> tweetList = response.tweets;
+		Tweet[] tweetList = response.tweets;
 
-		for (int i = 0, length = tweetList.size(); i < length;) {
-			Tweet tweet = tweetList.get(i);
+		// for (int i = 0, length = tweetList.length; i < length;) {
+		// Tweet tweet = tweetList[i];
 
-			if (tweet == null) {
-				tweetList.remove(i);
-				continue;
-			}
+		// if (tweet == null) {
+		// tweetList.remove(i);
+		// continue;
+		// }
 
-			i++;
-		}
+		// i++;
+		// }
 
-		return tweetList;
+		return Arrays.asList(tweetList);
 	}
 
-}
+	class SearchResponse {
+		@SerializedName("error")
+		public String errorMessage;
 
-class SearchResponse {
-	@SerializedName("error")
-	public String errorMessage;
+		@SerializedName("results_per_page")
+		public int numResultsPerPage;
 
-	@SerializedName("results_per_page")
-	public int numResultsPerPage;
+		@SerializedName("results")
+		public Tweet[] tweets;
 
-	@SerializedName("results")
-	public ArrayList<Tweet> tweets;
-
-	@SerializedName("next_page")
-	public String nextPageUrlString;
+		@SerializedName("next_page")
+		public String nextPageUrlString;
+	}
 }

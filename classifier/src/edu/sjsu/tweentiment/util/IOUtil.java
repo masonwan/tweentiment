@@ -8,7 +8,8 @@ import java.util.*;
  */
 public class IOUtil {
 	/**
-	 * @see "Read/convert an InputStream to a String" http://stackoverflow.com/a/5445161/239151
+	 * @see "Read/convert an InputStream to a String"
+	 *      http://stackoverflow.com/a/5445161/239151
 	 * @param filename
 	 * @return the concatenated string from the file
 	 * @throws IOException
@@ -80,5 +81,17 @@ public class IOUtil {
 		}
 
 		return wordList;
+	}
+
+	public static void saveStringToStream(String text, OutputStream outputStream) throws IOException {
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
+		writer.write(text);
+		writer.flush();
+	}
+
+	public static void saveStringToFile(String text, String filename) throws IOException {
+		FileOutputStream fileOutputStream = new FileOutputStream(filename);
+		saveStringToStream(text, fileOutputStream);
+		fileOutputStream.close();
 	}
 }

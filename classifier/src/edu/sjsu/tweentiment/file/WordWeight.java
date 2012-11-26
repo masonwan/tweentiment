@@ -21,7 +21,7 @@ public class WordWeight {
 		String jsonTxt = NetUtil.httpGet(url);
 		// String jsonTxt =
 		// "{\"prob\":0.806548944920931,\"mood\":\"positive\",\"text\":\"happy\"}";
-		System.out.println("jsonTxt:  " + jsonTxt);
+//		System.out.println("jsonTxt:  " + jsonTxt);
 
 		Gson gson = new Gson();
 		WordVH wordVh = gson.fromJson(jsonTxt, WordVH.class);

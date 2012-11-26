@@ -94,7 +94,7 @@ public class SentimentFileImpl implements SentimentFile {
 		output = new BufferedWriter(new FileWriter(file, true)); // true adds on
 		output.write(text);
 		output.close();
-		System.out.println("New word has been written to file");
+//		System.out.println("New word has been written to file");
 	}
 
 	/**

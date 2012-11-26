@@ -190,8 +190,8 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	private class LoadTask extends AsyncTask<String, Integer, ArrayList<Tweet>> {
-		private ArrayList<Tweet> newTweets;
+	private class LoadTask extends AsyncTask<String, Integer, List<Tweet>> {
+		private List<Tweet> newTweets;
 		private String username;
 		private Bitmap userImage;
 		private String title;
@@ -212,12 +212,12 @@ public class MainActivity extends Activity {
 		}
 
 		@Override
-		protected ArrayList<Tweet> doInBackground(String... searchQuery) {
+		protected List<Tweet> doInBackground(String... searchQuery) {
 			try {
 				TwitterSearchUrlBuilder builder = new TwitterSearchUrlBuilder(MainActivity.this.searchQuery, 5, MainActivity.this.searchType);
 
 				TwitterSearchWrapper searchWrapper = new TwitterSearchWrapper(builder);
-				ArrayList<Tweet> tweetList = searchWrapper.getTweets();
+				List<Tweet> tweetList = searchWrapper.getTweets();
 				this.newTweets = tweetList;
 
 				for (Tweet tweet : tweetList) {
@@ -249,7 +249,7 @@ public class MainActivity extends Activity {
 		}
 
 		@Override
-		protected void onPostExecute(ArrayList<Tweet> result) {
+		protected void onPostExecute(List<Tweet> result) {
 			super.onPostExecute(result);
 
 			if (result != null) {
