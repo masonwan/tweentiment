@@ -2,18 +2,20 @@ package edu.sjsu.tweentiment.twitter;
 
 import com.google.gson.annotations.*;
 
+import edu.sjsu.tweentiment.classifier.SentimentResult;
+
 public class Tweet {
 	@SerializedName("created_at")
-	public String created_at;
+	public String createAt;
 
 	@SerializedName("from_user")
-	public String from_user;
+	public String fromUser;
 
 	@SerializedName("from_user_name")
-	public String from_user_name;
+	public String fromUserName;
 
 	@SerializedName("profile_image_url")
-	public String profile_image_url;
+	public String profileImageUrlString;
 
 	@SerializedName("id_str")
 	public String id;
@@ -30,4 +32,7 @@ public class Tweet {
 
 		return isRetweet = text.startsWith("RT");
 	}
+
+	@Expose
+	public SentimentResult sentimentResult;
 }

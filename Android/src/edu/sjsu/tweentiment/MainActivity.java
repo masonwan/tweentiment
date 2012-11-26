@@ -15,9 +15,8 @@ import android.os.*;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
-import edu.sjsu.tweentiment.classifier.Classifier;
+import edu.sjsu.tweentiment.classifier.StaticClassifier;
 import edu.sjsu.tweentiment.twitter.*;
-import edu.sjsu.tweentiment.util.IOUtil;
 
 public class MainActivity extends Activity {
 	private String searchQuery = "";
@@ -31,8 +30,8 @@ public class MainActivity extends Activity {
 	private static final DateFormat INCOMING_DATE_FORMAT = new SimpleDateFormat("EEE, dd MMM yyyy kk:mm:ss zzz", Locale.getDefault());
 	private static final DateFormat OUTGOING_DATE_FORMAT = new SimpleDateFormat("EEE, dd MMM yyyy KK:mm:ss a", Locale.getDefault());
 
-	Classifier classifier;
-	String searchType;
+	StaticClassifier classifier;
+	SearchType searchType;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +40,8 @@ public class MainActivity extends Activity {
 
 		Bundle bundle = getIntent().getExtras();
 		this.searchQuery = bundle.getString("TWEET_KEYWORD").trim();
-		this.searchType = bundle.getString("SEARCH_TYPE").trim();
+		this.searchType = (SearchType) bundle.get("SEARCH_TYPE");
+
 		Log.d(TAG, "Search Type = " + this.searchType);
 
 		TextView welcomeTextView = (TextView) findViewById(R.id.welcomeLabel);
@@ -63,31 +63,46 @@ public class MainActivity extends Activity {
 
 	boolean initializeClassifier() {
 		try {
-			File internalStorageDirecotry = getFilesDir();
-			File sentimentWordsFile = new File(internalStorageDirecotry, "words.json");
+			// File internalStorageDirecotry = getFilesDir();
+			// File sentimentWordsFile = new File(internalStorageDirecotry,
+			// "words.json");
+			//
+			// if (sentimentWordsFile.exists() == false) {
+			// InputStream sentimentStream =
+			// getResources().openRawResource(R.raw.words);
+			// boolean isOkay = sentimentWordsFile.createNewFile();
+			//
+			// if (isOkay == false) {
+			// Toast.makeText(this, "The file system doesn't allow writing",
+			// Toast.LENGTH_SHORT);
+			// return false;
+			// }
+			//
+			// OutputStream outputStream = new
+			// FileOutputStream(sentimentWordsFile);
+			// IOUtil.copyStream(sentimentStream, outputStream);
+			// outputStream.close();
+			// }
+			//
+			// Resources resources = getResources();
+			// InputStream stopWordsStream =
+			// resources.openRawResource(R.raw.stop_words);
+			// InputStream noiseWordsStream =
+			// resources.openRawResource(R.raw.noise_words);
 
-			if (sentimentWordsFile.exists() == false) {
-				InputStream sentimentStream = getResources().openRawResource(R.raw.words);
-				boolean isOkay = sentimentWordsFile.createNewFile();
+			// classifier = new Classifier(sentimentWordsFile.getAbsolutePath(),
+			// stopWordsStream, noiseWordsStream);
 
-				if (isOkay == false) {
-					Toast.makeText(this, "The file system doesn't allow writing", Toast.LENGTH_SHORT);
-					return false;
-				}
-
-				OutputStream outputStream = new FileOutputStream(sentimentWordsFile);
-				IOUtil.copyStream(sentimentStream, outputStream);
-				outputStream.close();
-			}
+			// stopWordsStream.close();
+			// noiseWordsStream.close();
 
 			Resources resources = getResources();
-			InputStream stopWordsStream = resources.openRawResource(R.raw.stop_words);
-			InputStream noiseWordsStream = resources.openRawResource(R.raw.noise_words);
+			InputStream sentimentWordsStream = resources.openRawResource(R.raw.afinn_111);
+			InputStream negationsStream = resources.openRawResource(R.raw.negations);
+			classifier = new StaticClassifier(sentimentWordsStream, negationsStream);
+			sentimentWordsStream.close();
+			negationsStream.close();
 
-			classifier = new Classifier(sentimentWordsFile.getAbsolutePath(), stopWordsStream, noiseWordsStream);
-
-			stopWordsStream.close();
-			noiseWordsStream.close();
 		} catch (IOException e) {
 			Log.e("critical", e.getMessage());
 			Toast.makeText(this, "Classifier failed to load", Toast.LENGTH_LONG).show();
@@ -200,6 +215,7 @@ public class MainActivity extends Activity {
 		protected ArrayList<Tweet> doInBackground(String... searchQuery) {
 			try {
 				TwitterSearchUrlBuilder builder = new TwitterSearchUrlBuilder(MainActivity.this.searchQuery, 5, MainActivity.this.searchType);
+
 				TwitterSearchWrapper searchWrapper = new TwitterSearchWrapper(builder);
 				ArrayList<Tweet> tweetList = searchWrapper.getTweets();
 				this.newTweets = tweetList;
