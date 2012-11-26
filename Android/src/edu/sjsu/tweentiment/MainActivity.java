@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		Bundle bundle = getIntent().getExtras();
-		this.searchQuery = bundle.getString("TWEET_KEYWORD").trim();		
+		this.searchQuery = bundle.getString("TWEET_KEYWORD").trim();
 		this.searchType = (SearchType) bundle.get("SEARCH_TYPE");
 
 		Log.d(TAG, "Search Type = " + this.searchType);
@@ -215,6 +215,7 @@ public class MainActivity extends Activity {
 		protected ArrayList<Tweet> doInBackground(String... searchQuery) {
 			try {
 				TwitterSearchUrlBuilder builder = new TwitterSearchUrlBuilder(MainActivity.this.searchQuery, 5, MainActivity.this.searchType);
+
 				TwitterSearchWrapper searchWrapper = new TwitterSearchWrapper(builder);
 				ArrayList<Tweet> tweetList = searchWrapper.getTweets();
 				this.newTweets = tweetList;
