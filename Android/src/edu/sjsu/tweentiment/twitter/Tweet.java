@@ -23,7 +23,6 @@ public class Tweet {
 	@SerializedName("text")
 	public String text;
 
-	@Expose
 	private Boolean isRetweet = null;
 
 	public boolean isRetweet() {
@@ -33,6 +32,7 @@ public class Tweet {
 
 		return isRetweet = text.startsWith("RT");
 	}
-	
-	public SentimentResult sentimentResult; 
+
+	@Expose
+	public SentimentResult sentimentResult;
 }

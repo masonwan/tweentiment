@@ -3,13 +3,11 @@ package edu.sjsu.tweentiment.twitter;
 import java.io.UnsupportedEncodingException;
 import java.net.*;
 
-import android.util.Log;
-
 public class TwitterSearchUrlBuilder {
 
 	static String baseUrlString = "http://search.twitter.com/search.json";
 	static final int defaultNumTweetsPerPage = 100;
-	String searchType;
+	SearchType searchType;
 
 	int numTweetsPerPage = defaultNumTweetsPerPage;
 	String query = null;
@@ -22,7 +20,7 @@ public class TwitterSearchUrlBuilder {
 		this.query = query;
 	}
 
-	public TwitterSearchUrlBuilder(String query, int numTweetsPerPage, String searchType) {
+	public TwitterSearchUrlBuilder(String query, int numTweetsPerPage, SearchType searchType) {
 		this(query);
 		this.numTweetsPerPage = numTweetsPerPage;
 		this.searchType = searchType;
@@ -34,13 +32,12 @@ public class TwitterSearchUrlBuilder {
 		String url = null;
 
 		try {
-			Log.d("TAG", "Before encoding = " + query);
 			encodedQuery = URLEncoder.encode(query, "UTF-8");
-			Log.d("TAG", "After encoding = " + encodedQuery);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		url = this.urlBuilder(encodedQuery);
+
+		url = this.buildUrlString(encodedQuery);
 
 		return url;
 	}
@@ -54,27 +51,22 @@ public class TwitterSearchUrlBuilder {
 	 *            searchType - general | user
 	 * @return String url
 	 */
-	public final String urlBuilder(String encodedQuery) {
+	public final String buildUrlString(String encodedQuery) {
 		String url = "";
 
 		if (encodedQuery.equals("")) {
 			return url;
 		}
 
-		if (searchType.equals("general")) {
-			url = String.format("%s?q=%s&lang=en&rpp=%d", baseUrlString, encodedQuery, numTweetsPerPage);
-			Log.d("TAG", "General URL = " + url);
+		if (searchType == SearchType.User) {
+			encodedQuery = "from%3A" + encodedQuery;
 		}
 
-		if (searchType.equals("user")) {
-			encodedQuery = "from%3A" + encodedQuery;
-			url = String.format("%s?q=%s&lang=en&rpp=%d", baseUrlString, encodedQuery, numTweetsPerPage);
-			Log.d("TAG", "User URL = " + url);
-		}
+		url = String.format("%s?q=%s&lang=en&rpp=%d", baseUrlString, encodedQuery, numTweetsPerPage);
 
 		return url;
 	}
-	
+
 	public URI toUri() {
 		try {
 			return new URI(toString());

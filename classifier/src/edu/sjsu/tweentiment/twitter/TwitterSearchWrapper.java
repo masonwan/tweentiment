@@ -1,23 +1,24 @@
 package edu.sjsu.tweentiment.twitter;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.*;
-import java.util.*;
+import java.util.ArrayList;
 
-import org.apache.http.*;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.*;
-import org.apache.http.client.methods.*;
-import org.apache.http.impl.client.*;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.google.gson.*;
-import com.google.gson.annotations.*;
+import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 
-import edu.sjsu.tweentiment.util.*;
+import edu.sjsu.tweentiment.util.IOUtil;
 
 /**
  * The Twitter deprecated API (API 1.0) wrapper.
  * 
- * @see GET search | Twitter Developers https://dev.twitter.com/docs/api/1/get/search
+ * @see GET search | Twitter Developers
+ *      https://dev.twitter.com/docs/api/1/get/search
  */
 public class TwitterSearchWrapper {
 
@@ -54,7 +55,8 @@ public class TwitterSearchWrapper {
 		}
 
 		if (httpResponse.getStatusLine().getStatusCode() != HttpURLConnection.HTTP_OK) {
-			// System.out.format("HTTP response is %s\n", httpResponse.getStatusLine());
+			// System.out.format("HTTP response is %s\n",
+			// httpResponse.getStatusLine());
 			return null;
 		}
 
@@ -71,7 +73,8 @@ public class TwitterSearchWrapper {
 		SearchResponse response = this.originalRespond = gson.fromJson(jsonText, SearchResponse.class);
 
 		if (response.errorMessage != null) {
-			// System.out.format("Response contains error: %s\n", response.errorMessage);
+			// System.out.format("Response contains error: %s\n",
+			// response.errorMessage);
 			return null;
 		}
 

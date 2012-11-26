@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
+import edu.sjsu.tweentiment.twitter.SearchType;
 
 public class SearchActivity extends Activity {
 	private Button searchBtn;
@@ -28,7 +29,7 @@ public class SearchActivity extends Activity {
 
 				Intent intent = new Intent(SearchActivity.this, MainActivity.class);
 				intent.putExtra("TWEET_KEYWORD", keyword);
-				intent.putExtra("SEARCH_TYPE", "general");
+				intent.putExtra("SEARCH_TYPE", SearchType.General);
 				if (keyword.equals("")) {
 					Log.d(TAG, "KW = " + keyword.equals(""));
 					Toast.makeText(SearchActivity.this, "Please enter a tweet keyword!", Toast.LENGTH_SHORT).show();
@@ -46,7 +47,7 @@ public class SearchActivity extends Activity {
 
 				Intent intent = new Intent(SearchActivity.this, MainActivity.class);
 				intent.putExtra("TWEET_KEYWORD", keyword);
-				intent.putExtra("SEARCH_TYPE", "user");
+				intent.putExtra("SEARCH_TYPE", SearchType.User);
 
 				Pattern pattern = Pattern.compile("\\s");
 				Matcher matcher = pattern.matcher(keyword);
