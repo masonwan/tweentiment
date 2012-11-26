@@ -3,6 +3,8 @@ package edu.sjsu.tweentiment.twitter;
 import java.io.UnsupportedEncodingException;
 import java.net.*;
 
+import android.util.Log;
+
 public class TwitterSearchUrlBuilder {
 
 	static String baseUrlString = "http://search.twitter.com/search.json";
@@ -63,7 +65,7 @@ public class TwitterSearchUrlBuilder {
 		}
 
 		url = String.format("%s?q=%s&lang=en&rpp=%d", baseUrlString, encodedQuery, numTweetsPerPage);
-
+		Log.d("URL", url); 
 		return url;
 	}
 
