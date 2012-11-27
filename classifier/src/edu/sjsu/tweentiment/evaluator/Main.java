@@ -22,8 +22,8 @@ public class Main {
 			commandList.add(new Sentiement140Command());
 			// commandList.add(new ViralheatCommand());
 
-//			ITextProvider textProvider = new CustomizedTextProvider();
-			ITextProvider textProvider = new TwitterTextProvider("#CyberMonday");
+			// ITextProvider textProvider = new CustomizedTextProvider();
+			ITextProvider textProvider = new TwitterTextProvider("@obama");
 
 			final int maxTextCount = 100;
 
@@ -34,6 +34,24 @@ public class Main {
 				ICommand command = commandList.get(i);
 				SentimentType[] sentimentTypes = command.getSentimentValue(texts);
 				resultList.add(new ArrayList<>(Arrays.asList(sentimentTypes)));
+
+				int[] statistics = new int[] {
+						0, 0, 0
+				};
+
+				for (int j = 0; j < sentimentTypes.length; j++) {
+					SentimentType type = sentimentTypes[j];
+
+					if (type == SentimentType.Positive) {
+						statistics[0]++;
+					} else if (type == SentimentType.Negative) {
+						statistics[2]++;
+					} else {
+						statistics[1]++;
+					}
+				}
+
+				System.out.format("%s: %s\n", command.getName(), statistics.toString());
 			}
 
 			ResultJson resultJson = generateResultJson();
@@ -174,6 +192,10 @@ class CustomizedTextProvider implements ITextProvider {
 	LinkedList<String> textQueue = new LinkedList<>();
 
 	public CustomizedTextProvider() {
+		textQueue.add("@LionelMedia b4 hand I'm not an #obama supporter, but would it had made a difference if McCain had won in '08?");
+		textQueue.add("@TheCeliacDiva Coupon Book for #CyberMonday is only $19....crazy Gluten Free Savings inside! http://t.co/QvPciQmR");
+		textQueue.add("Cyber Monday did not go well for me! #CyberMonday");
+		textQueue.add("There's no such thing as owning to many pairs of shoes, is there? #heels #cybermonday #sales");
 		textQueue.add("RT @JABBAWOCKEEZ: Hours left of #cybermonday sales! Don't miss out! Up to 50% off new merch incl #SchoolOfDance DVD http://t.co/jtwYJcwU http://t.co/nBU1CwY8");
 		textQueue.add("#cybermonday this made me laugh haha!! aye lets do is...Lauren Bett has a wee ring tae it http://t.co/olAZltr6");
 		textQueue.add("Do you like my iPad?");

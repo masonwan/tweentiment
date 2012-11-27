@@ -4,18 +4,33 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.*;
 
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.search.spell.*;
+import org.apache.lucene.store.*;
+import org.apache.lucene.util.Version;
+
 import com.google.gson.Gson;
 
-public class StaticClassifier {
+public class StaticClassifier2 {
 
 	Gson gson = new Gson();
 	HashMap<String, Double> sentimentWordMap = new HashMap<String, Double>();
 	HashSet<String> negationSet = new HashSet<String>();
 
-	Pattern wordPattern = Pattern.compile("[#@]?\\w+(\'\\w+)?|([^\\w\\s@#])+");
+	Pattern wordPattern = Pattern.compile("\\w+('\\w*)?");
+
+	SpellChecker spellChecker;
 
 	@SuppressWarnings("unchecked")
-	public StaticClassifier(InputStream sentimentWordsStream, InputStream negationsStream) throws IOException {
+	public StaticClassifier2(File dictionaryFile, InputStream sentimentWordsStream, InputStream negationsStream) throws IOException {
+
+		Directory directory = FSDirectory.open(dictionaryFile);
+		spellChecker = new SpellChecker(directory);
+		StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_36);
+		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(Version.LUCENE_36, analyzer);
+		spellChecker.indexDictionary(new PlainTextDictionary(new File("dictionary.txt")), indexWriterConfig, true);
+
 		// Read sentiment words.
 		sentimentWordMap = gson.fromJson(new InputStreamReader(sentimentWordsStream), (new HashMap<String, Integer>()).getClass());
 
@@ -32,32 +47,18 @@ public class StaticClassifier {
 		ArrayList<Word> negativeWordList = new ArrayList<Word>();
 		int totalSentimentValue = 0;
 
-		Matcher matcher = wordPattern.matcher(text.toLowerCase());
+		Matcher matcher = wordPattern.matcher(text);
 		boolean isPreviousNegation = false;
 
 		while (matcher.find()) {
 			String matchedWord = matcher.group();
-
-			// Reset the negation flag.
-			if (matchedWord.equals(",") || matchedWord.contains(".") || matchedWord.equals("!") || matchedWord.equals("?")) {
-				isPreviousNegation = false;
-				continue;
-			}
-
-			char firstChar = matchedWord.charAt(0);
-
-			// Filter out the mention and hashtag.
-			if (firstChar == '@') {
-				continue;
-			}
-
 			Double sentimentValue = sentimentWordMap.get(matchedWord);
 
 			if (sentimentValue == null) {
 				boolean doesContain = negationSet.contains(matchedWord);
 
 				if (doesContain) {
-					isPreviousNegation = !isPreviousNegation;
+					isPreviousNegation = true;
 				}
 			} else {
 				if (isPreviousNegation) {
