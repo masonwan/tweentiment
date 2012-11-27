@@ -17,7 +17,7 @@ You must install
 * [Eclipse](http://www.eclipse.org/downloads/)
 * [Maven](http://maven.apache.org/eclipse-plugin.html)
 
-Use Eclipse to open each .profile file in Android and Classifier directories and build project.
+Use Eclipse to open each .profile file in Android and Classifier directories and build project. For evaluator, the result will be saved into a JSON file in the working directories.
 
 # Related Work
 Several websites have already implemented this idea. The top two from Google search results are [Sentiment140](http://www.sentiment140.com/) and [TweetFeel](http://www.tweetfeel.com/).
