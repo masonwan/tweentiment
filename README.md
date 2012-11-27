@@ -8,15 +8,10 @@ Tweentiment
 Twitter is a social network and microblogging system which limits a single content to 140 words. This limitation did not hinder the grows of users but rather attract people or organization to share, advertise or interact on the platform. 50 millions tweets was sent per day in average.
 This project is building an Android app which displays and calculates the sentiment value for each tweet. The goal is to achieve a competitive result with [Sentiment140 API](http://help.sentiment140.com/api).
 
-This application is using [Twitter Streaming API](https://dev.twitter.com/docs/streaming-apis). The json files are parsed using [GSON](http://code.google.com/p/google-gson/) library.
+This application is using [Twitter Search API](https://dev.twitter.com/docs/api/1/get/search). The json files are parsed using [GSON](http://code.google.com/p/google-gson/) library.
 
 # Related Work
 Several websites have already implemented this idea. The top two from Google search results are [Sentiment140](http://www.sentiment140.com/) and [TweetFeel](http://www.tweetfeel.com/).
-
-# Method
-At first we compile the sentiment data into one single file. The sentiment data include two different categories, positive and negative word. When the classifier initializes, it loads all the sentiment data into the memory.
-For each incoming tweet from Twitter Stream API, the classifier looks up each word in the tweet and compares with the sentiment data. If the word appears in the positive category, the classifier increase the sentiment total for the tweet; otherwise, if the word appears in the negative category, it decreases the sentiment total. After the counting, the classifier calculates the sentiment average by dividing the sentiment total with the number of sentiment words.
-In the end, the sentiment average is the indicator for determining the relative sentiment between all those tweets.
 
 # Evaluation
 Compare our result with Sentiment140 result (API available). List the differences and let human judge which one is more accurate.
