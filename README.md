@@ -10,6 +10,15 @@ This project is building an Android app which displays and calculates the sentim
 
 This application is using [Twitter Search API](https://dev.twitter.com/docs/api/1/get/search). The json files are parsed using [GSON](http://code.google.com/p/google-gson/) library.
 
+# How to run
+You must install
+* [Java SE 7](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+* [Android SDK](http://developer.android.com/sdk/index.html)
+* [Eclipse](http://www.eclipse.org/downloads/)
+* [Maven](http://maven.apache.org/eclipse-plugin.html)
+
+Use Eclipse to open each .profile file in Android and Classifier directories and build project.
+
 # Related Work
 Several websites have already implemented this idea. The top two from Google search results are [Sentiment140](http://www.sentiment140.com/) and [TweetFeel](http://www.tweetfeel.com/).
 
