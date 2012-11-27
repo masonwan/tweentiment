@@ -63,39 +63,6 @@ public class MainActivity extends Activity {
 
 	boolean initializeClassifier() {
 		try {
-			// File internalStorageDirecotry = getFilesDir();
-			// File sentimentWordsFile = new File(internalStorageDirecotry,
-			// "words.json");
-			//
-			// if (sentimentWordsFile.exists() == false) {
-			// InputStream sentimentStream =
-			// getResources().openRawResource(R.raw.words);
-			// boolean isOkay = sentimentWordsFile.createNewFile();
-			//
-			// if (isOkay == false) {
-			// Toast.makeText(this, "The file system doesn't allow writing",
-			// Toast.LENGTH_SHORT);
-			// return false;
-			// }
-			//
-			// OutputStream outputStream = new
-			// FileOutputStream(sentimentWordsFile);
-			// IOUtil.copyStream(sentimentStream, outputStream);
-			// outputStream.close();
-			// }
-			//
-			// Resources resources = getResources();
-			// InputStream stopWordsStream =
-			// resources.openRawResource(R.raw.stop_words);
-			// InputStream noiseWordsStream =
-			// resources.openRawResource(R.raw.noise_words);
-
-			// classifier = new Classifier(sentimentWordsFile.getAbsolutePath(),
-			// stopWordsStream, noiseWordsStream);
-
-			// stopWordsStream.close();
-			// noiseWordsStream.close();
-
 			Resources resources = getResources();
 			InputStream sentimentWordsStream = resources.openRawResource(R.raw.afinn_111);
 			InputStream negationsStream = resources.openRawResource(R.raw.negations);
