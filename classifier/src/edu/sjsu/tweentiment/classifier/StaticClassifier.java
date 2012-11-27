@@ -12,7 +12,7 @@ public class StaticClassifier {
 	HashMap<String, Double> sentimentWordMap = new HashMap<String, Double>();
 	HashSet<String> negationSet = new HashSet<String>();
 
-	Pattern wordPattern = Pattern.compile("\\w+('\\w*)?");
+	Pattern wordPattern = Pattern.compile("[@]?\\w+(\'\\w*)?|([^\\w\\s@])+");
 
 	@SuppressWarnings("unchecked")
 	public StaticClassifier(InputStream sentimentWordsStream, InputStream negationsStream) throws IOException {
@@ -32,11 +32,25 @@ public class StaticClassifier {
 		ArrayList<Word> negativeWordList = new ArrayList<Word>();
 		int totalSentimentValue = 0;
 
-		Matcher matcher = wordPattern.matcher(text);
+		Matcher matcher = wordPattern.matcher(text.toLowerCase());
 		boolean isPreviousNegation = false;
 
 		while (matcher.find()) {
 			String matchedWord = matcher.group();
+
+			// Reset the negation flag.
+			if (matchedWord.equals(".") || matchedWord.equals("!") || matchedWord.equals("?")) {
+				isPreviousNegation = false;
+				continue;
+			}
+
+			char firstChar = matchedWord.charAt(0);
+
+			// Filter out the mention and hashtag.
+			if (firstChar == '@') {
+				continue;
+			}
+
 			Double sentimentValue = sentimentWordMap.get(matchedWord);
 
 			if (sentimentValue == null) {

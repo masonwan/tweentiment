@@ -7,11 +7,11 @@ import org.junit.*;
 import edu.sjsu.tweentiment.SentimentType;
 
 public class ClassifierTest {
-	Classifier classifier;
+	DynamicClassifier classifier;
 
 	@Before
 	public void setUp() throws Exception {
-		classifier = new Classifier("words.json", "stop_words.txt", "noise_words.txt");
+		classifier = new DynamicClassifier("words.json", "stop_words.txt", "noise_words.txt");
 	}
 
 	@Test

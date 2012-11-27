@@ -18,14 +18,14 @@ public class Main {
 		try {
 			commandList = new ArrayList<>();
 			// commandList.add(new NormalClassifierCommand());
-			commandList.add(new AFINNClassifierCommand());
+			commandList.add(new StaticClassifierCommand());
 			commandList.add(new Sentiement140Command());
 			// commandList.add(new ViralheatCommand());
 
-			// ITextProvider textProvider = new CustomizedTextProvider();
-			ITextProvider textProvider = new TwitterTextProvider("news");
+//			ITextProvider textProvider = new CustomizedTextProvider();
+			ITextProvider textProvider = new TwitterTextProvider("#CyberMonday");
 
-			final int maxTextCount = 20;
+			final int maxTextCount = 100;
 
 			texts = textProvider.getTexts(maxTextCount);
 			resultList = new ArrayList<>(commandList.size());
@@ -174,6 +174,8 @@ class CustomizedTextProvider implements ITextProvider {
 	LinkedList<String> textQueue = new LinkedList<>();
 
 	public CustomizedTextProvider() {
+		textQueue.add("RT @JABBAWOCKEEZ: Hours left of #cybermonday sales! Don't miss out! Up to 50% off new merch incl #SchoolOfDance DVD http://t.co/jtwYJcwU http://t.co/nBU1CwY8");
+		textQueue.add("#cybermonday this made me laugh haha!! aye lets do is...Lauren Bett has a wee ring tae it http://t.co/olAZltr6");
 		textQueue.add("Do you like my iPad?");
 		textQueue.add("If you have an Android Phone, Android Tablet, iPad, iPhone, iPod touch or Kindle Fire you will want to sign up... http://t.co/u8uwCSQ4");
 		textQueue.add("#ipad this made me laugh so fucking much.");

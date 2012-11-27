@@ -4,13 +4,12 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.*;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
 
-import edu.sjsu.tweentiment.file.SentimentFile;
-import edu.sjsu.tweentiment.file.SentimentFileImpl;
-import edu.sjsu.tweentiment.util.*;
+import edu.sjsu.tweentiment.file.*;
+import edu.sjsu.tweentiment.util.IOUtil;
 
-public class Classifier {
+public class DynamicClassifier {
 
 	Gson gson = new Gson();
 	Set<String> stopWordSet = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
@@ -18,13 +17,13 @@ public class Classifier {
 	Pattern wordPattern = Pattern.compile("\\w+'?\\w+");
 	SentimentFile sentimentFile;
 
-	public Classifier(String sentimentWordsFilename, String stopWordFilename, String noiseWordFilename) throws IOException {
+	public DynamicClassifier(String sentimentWordsFilename, InputStream stopWordsStream, InputStream noiseWordsStream) throws IOException {
 		sentimentFile = new SentimentFileImpl(sentimentWordsFilename);
 
 		stopWordSet.clear();
 		noiseWordSet.clear();
-		ArrayList<String> stopWordList = IOUtil.readWordList(stopWordFilename);
-		ArrayList<String> noiseWordList = IOUtil.readWordList(noiseWordFilename);
+		ArrayList<String> stopWordList = IOUtil.readWordListFromStream(stopWordsStream);
+		ArrayList<String> noiseWordList = IOUtil.readWordListFromStream(noiseWordsStream);
 
 		for (String stopWord : stopWordList) {
 			stopWordSet.add(stopWord);
