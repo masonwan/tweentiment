@@ -33,8 +33,8 @@ Sentiment analysis - Wikipedia, the free encyclopedia
 <http://en.wikipedia.org/wiki/Sentiment_analysis>
 
 ## Dataset
-Sentiment data from several authorities
-<https://github.com/jperla/sentiment-data>
+A new ANEW: Evaluation of a word list for sentiment analysis in microblogs
+<http://arxiv.org/abs/1103.2903>
 
 ## Projects
 Twitter Sentiment Analysis Tutorial
