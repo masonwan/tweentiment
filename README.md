@@ -1,6 +1,9 @@
 # Project Title
 Tweentiment
 
+![Search screen](http://i.imgur.com/wMGfa.png)
+![Result screen](http://i.imgur.com/IYZGt.png)
+
 # Introduction
 Twitter is a social network and microblogging system which limits a single content to 140 words. This limitation did not hinder the grows of users but rather attract people or organization to share, advertise or interact on the platform. 50 millions tweets was sent per day in average.
 This project is building an Android app which displays and calculates the sentiment value for each tweet. The goal is to achieve a competitive result with [Sentiment140 API](http://help.sentiment140.com/api).
@@ -18,7 +21,7 @@ In the end, the sentiment average is the indicator for determining the relative 
 # Evaluation
 Compare our result with Sentiment140 result (API available). List the differences and let human judge which one is more accurate.
 
-# Result
+![Evaluator](http://i.imgur.com/UnGSP.png)
 
 # References
 ## Definitions
