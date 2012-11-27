@@ -22,8 +22,8 @@ public class Main {
 			commandList.add(new Sentiement140Command());
 			// commandList.add(new ViralheatCommand());
 
-			// ITextProvider textProvider = new CustomizedTextProvider();
-			ITextProvider textProvider = new TwitterTextProvider("@obama");
+			ITextProvider textProvider = new CustomizedTextProvider();
+			// ITextProvider textProvider = new TwitterTextProvider("@obama");
 
 			final int maxTextCount = 100;
 
@@ -192,6 +192,7 @@ class CustomizedTextProvider implements ITextProvider {
 	LinkedList<String> textQueue = new LinkedList<>();
 
 	public CustomizedTextProvider() {
+		textQueue.add("not :D kid");
 		textQueue.add("@LionelMedia b4 hand I'm not an #obama supporter, but would it had made a difference if McCain had won in '08?");
 		textQueue.add("@TheCeliacDiva Coupon Book for #CyberMonday is only $19....crazy Gluten Free Savings inside! http://t.co/QvPciQmR");
 		textQueue.add("Cyber Monday did not go well for me! #CyberMonday");

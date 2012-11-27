@@ -76,17 +76,6 @@ public class TwitterSearchWrapper {
 
 		Tweet[] tweetList = response.tweets;
 
-		// for (int i = 0, length = tweetList.length; i < length;) {
-		// Tweet tweet = tweetList[i];
-
-		// if (tweet == null) {
-		// tweetList.remove(i);
-		// continue;
-		// }
-
-		// i++;
-		// }
-
 		return Arrays.asList(tweetList);
 	}
 

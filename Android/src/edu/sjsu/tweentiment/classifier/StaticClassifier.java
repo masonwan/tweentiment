@@ -12,7 +12,7 @@ public class StaticClassifier {
 	HashMap<String, Double> sentimentWordMap = new HashMap<String, Double>();
 	HashSet<String> negationSet = new HashSet<String>();
 
-	Pattern wordPattern = Pattern.compile("[#@]?\\w+(\'\\w+)?|([^\\w\\s@#])+");
+	Pattern wordPattern = Pattern.compile("[#@]?\\w+(\'\\w+)?|:\\w(?:\\s)|([^\\w\\s@#])+");
 
 	@SuppressWarnings("unchecked")
 	public StaticClassifier(InputStream sentimentWordsStream, InputStream negationsStream) throws IOException {
@@ -36,7 +36,7 @@ public class StaticClassifier {
 		boolean isPreviousNegation = false;
 
 		while (matcher.find()) {
-			String matchedWord = matcher.group();
+			String matchedWord = matcher.group().trim();
 
 			// Reset the negation flag.
 			if (matchedWord.equals(",") || matchedWord.contains(".") || matchedWord.equals("!") || matchedWord.equals("?")) {
@@ -60,7 +60,7 @@ public class StaticClassifier {
 					isPreviousNegation = !isPreviousNegation;
 				}
 			} else {
-				if (isPreviousNegation) {
+				if (isPreviousNegation && !matchedWord.contains(":")) {
 					sentimentValue = -sentimentValue;
 				}
 
