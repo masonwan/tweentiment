@@ -1,73 +1,73 @@
 <class-diagram version="1.0.11" icons="true" automaticImage="PNG" always-add-relationships="false" 
-  generalizations="true" realizations="true" associations="true" dependencies="true" nesting-relationships="true">  
-  <class id="1" corner="BOTTOM_RIGHT" language="java" name="edu.sjsu.tweentiment.MainActivity.TweetHolder" 
-    project="Tweentiment2" file="/Tweentiment2/src/edu/sjsu/tweentiment/MainActivity.java" binary="false">    
-    <position height="-1" width="-1" x="498" y="599"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true"/>      
-      <operations public="true" package="true" protected="true" private="true"/>    
-    </display>  
-  </class>  
-  <class id="2" corner="BOTTOM_RIGHT" language="java" name="edu.sjsu.tweentiment.MainActivity.TweetAdapter" 
-    project="Tweentiment2" file="/Tweentiment2/src/edu/sjsu/tweentiment/MainActivity.java" binary="false">    
-    <position height="-1" width="-1" x="222" y="715"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true"/>      
-      <operations public="true" package="true" protected="true" private="true"/>    
-    </display>  
-  </class>  
-  <class id="3" corner="BOTTOM_RIGHT" language="java" name="edu.sjsu.tweentiment.MainActivity" project="Tweentiment2" 
-    file="/Tweentiment2/src/edu/sjsu/tweentiment/MainActivity.java" binary="false">    
-    <position height="-1" width="-1" x="222" y="412"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true"/>      
-      <operations public="true" package="true" protected="true" private="true"/>    
-    </display>  
-  </class>  
-  <class id="4" corner="BOTTOM_RIGHT" language="java" name="edu.sjsu.tweentiment.MainActivity.LoadTask" 
-    project="Tweentiment2" file="/Tweentiment2/src/edu/sjsu/tweentiment/MainActivity.java" binary="false">    
-    <position height="-1" width="-1" x="509" y="367"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true"/>      
-      <operations public="true" package="true" protected="true" private="true"/>    
-    </display>  
-  </class>  
-  <class id="5" corner="BOTTOM_RIGHT" language="java" name="edu.sjsu.tweentiment.classifier.StaticClassifier" 
+  generalizations="true" realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" corner="BOTTOM_RIGHT" language="java" name="edu.sjsu.tweentiment.classifier.StaticClassifier" 
     project="Tweentiment2" file="/Tweentiment2/src/edu/sjsu/tweentiment/classifier/StaticClassifier.java" binary="false">    
-    <position height="-1" width="-1" x="375" y="98"/>    
+    <position height="-1" width="-1" x="641" y="159"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <nesting id="6">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="4"/>  
-  </nesting>  
+  <class id="2" corner="BOTTOM_RIGHT" language="java" name="edu.sjsu.tweentiment.MainActivity.TweetHolder" 
+    project="Tweentiment2" file="/Tweentiment2/src/edu/sjsu/tweentiment/MainActivity.java" binary="false">    
+    <position height="-1" width="-1" x="121" y="459"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="3" corner="BOTTOM_RIGHT" language="java" name="edu.sjsu.tweentiment.MainActivity.TweetAdapter" 
+    project="Tweentiment2" file="/Tweentiment2/src/edu/sjsu/tweentiment/MainActivity.java" binary="false">    
+    <position height="-1" width="-1" x="374" y="451"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="4" corner="BOTTOM_RIGHT" language="java" name="edu.sjsu.tweentiment.MainActivity" project="Tweentiment2" 
+    file="/Tweentiment2/src/edu/sjsu/tweentiment/MainActivity.java" binary="false">    
+    <position height="-1" width="-1" x="136" y="189"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="5" corner="BOTTOM_RIGHT" language="java" name="edu.sjsu.tweentiment.MainActivity.LoadTask" 
+    project="Tweentiment2" file="/Tweentiment2/src/edu/sjsu/tweentiment/MainActivity.java" binary="false">    
+    <position height="-1" width="-1" x="626" y="371"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="6" corner="BOTTOM_RIGHT" language="java" name="edu.sjsu.tweentiment.SearchActivity" project="Tweentiment2" 
+    file="/Tweentiment2/src/edu/sjsu/tweentiment/SearchActivity.java" binary="false">    
+    <position height="-1" width="-1" x="357" y="101"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
   <nesting id="7">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="2"/>  
-  </nesting>  
-  <dependency id="8">    
     <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="5"/>  
-  </dependency>  
-  <dependency id="9">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="1"/>  
-  </dependency>  
-  <nesting id="10">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="1"/>  
   </nesting>  
-  <association id="11">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="12" name="classifier"/>      
-      <multiplicity id="13" minimum="0" maximum="1"/>    
+  <nesting id="8">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="2"/>  
+  </nesting>  
+  <association id="9">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="10" name="classifier"/>      
+      <multiplicity id="11" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
+    <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="false" multiplicity="false"/>  
   </association>  
+  <nesting id="12">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="3"/>  
+  </nesting>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     visibility="true">    
     <attributes public="true" package="true" protected="true" private="true"/>    
